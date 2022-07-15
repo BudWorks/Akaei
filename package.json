@@ -1,0 +1,26 @@
+{
+  "name": "akaei",
+  "description": "A fun, cute, and modern Discord bot.",
+  "version": "2.0.0-0",
+  "homepage": "https://github.com/BudWorks/Akaei",
+  "bugs": {
+    "url": "https://github.com/BudWorks/Akaei/issues",
+    "email": "baconhatcontact@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "Louie Chudziak",
+      "email": "baconhatcontact@gmail.com",
+      "url": "https://instagram.com/justyourbud"
+    },
+    {
+      "name": "Jonah Bedouch",
+      "email": "jonah@bedouch.net",
+      "url": "https://bedouch.net"
+    },
+    {
+      "name": "Jordan De La Torre"
+    }
+  ],
+  "packageManager": "yarn@3.2.1"
+}
