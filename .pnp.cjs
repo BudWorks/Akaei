@@ -37,6 +37,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:18.6.2"],\
             ["@typescript-eslint/eslint-plugin", "virtual:7eb79df510920dd03e1184f7608ee34a96e0e936f7303f3ea41d1c98a34ad5c4f930746615119f10d2d9812847178eeeac66f1e74e9f6e2b728637eea93fd943#npm:5.31.0"],\
             ["@typescript-eslint/parser", "virtual:7eb79df510920dd03e1184f7608ee34a96e0e936f7303f3ea41d1c98a34ad5c4f930746615119f10d2d9812847178eeeac66f1e74e9f6e2b728637eea93fd943#npm:5.31.0"],\
+            ["cross-env", "npm:7.0.3"],\
             ["dotenv", "npm:16.0.1"],\
             ["eslint", "npm:8.20.0"],\
             ["prettier", "npm:2.7.1"],\
@@ -486,6 +487,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:18.6.2"],\
             ["@typescript-eslint/eslint-plugin", "virtual:7eb79df510920dd03e1184f7608ee34a96e0e936f7303f3ea41d1c98a34ad5c4f930746615119f10d2d9812847178eeeac66f1e74e9f6e2b728637eea93fd943#npm:5.31.0"],\
             ["@typescript-eslint/parser", "virtual:7eb79df510920dd03e1184f7608ee34a96e0e936f7303f3ea41d1c98a34ad5c4f930746615119f10d2d9812847178eeeac66f1e74e9f6e2b728637eea93fd943#npm:5.31.0"],\
+            ["cross-env", "npm:7.0.3"],\
             ["dotenv", "npm:16.0.1"],\
             ["eslint", "npm:8.20.0"],\
             ["prettier", "npm:2.7.1"],\
@@ -624,6 +626,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/create-require-npm-1.1.1-839884ca2e-a9a1503d43.zip/node_modules/create-require/",\
           "packageDependencies": [\
             ["create-require", "npm:1.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["cross-env", [\
+        ["npm:7.0.3", {\
+          "packageLocation": "./.yarn/cache/cross-env-npm-7.0.3-96d81820f4-26f2f3ea2a.zip/node_modules/cross-env/",\
+          "packageDependencies": [\
+            ["cross-env", "npm:7.0.3"],\
+            ["cross-spawn", "npm:7.0.3"]\
           ],\
           "linkType": "HARD"\
         }]\
