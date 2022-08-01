@@ -33,6 +33,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         [null, {\
           "packageLocation": "./",\
           "packageDependencies": [\
+            ["@discordjs/rest", "npm:1.0.1"],\
             ["@tsconfig/recommended", "npm:1.0.1"],\
             ["@types/node", "npm:18.6.2"],\
             ["@typescript-eslint/eslint-plugin", "virtual:7eb79df510920dd03e1184f7608ee34a96e0e936f7303f3ea41d1c98a34ad5c4f930746615119f10d2d9812847178eeeac66f1e74e9f6e2b728637eea93fd943#npm:5.31.0"],\
@@ -571,6 +572,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",\
           "packageDependencies": [\
             ["akaei", "workspace:."],\
+            ["@discordjs/rest", "npm:1.0.1"],\
             ["@tsconfig/recommended", "npm:1.0.1"],\
             ["@types/node", "npm:18.6.2"],\
             ["@typescript-eslint/eslint-plugin", "virtual:7eb79df510920dd03e1184f7608ee34a96e0e936f7303f3ea41d1c98a34ad5c4f930746615119f10d2d9812847178eeeac66f1e74e9f6e2b728637eea93fd943#npm:5.31.0"],\
