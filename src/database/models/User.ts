@@ -8,6 +8,15 @@ export interface UserInterface {
 	_id: string;
 	/** The Discord username of the user. */
 	username: string;
+	/** Data associated with the balance of a user. */
+	balance: {
+		/** The amount of cash a user has withdrawn. */
+		cash: number;
+		/** The amount of money a user has deposited into the bank. */
+		bank: number;
+		/** The amount of money a user has deposited into their card. */
+		card: number;
+	};
 }
 
 /**
@@ -23,6 +32,15 @@ const userSchema = new Schema<UserInterface>({
 	"_id": { "type": String, "required": true },
 	/** The Discord username of the user. */
 	"username": { "type": String, "required": true },
+	/** Data associated with the balance of a user. */
+	"balance": {
+		/** The amount of cash a user has withdrawn. */
+		"cash": Number,
+		/** The amount of money a user has deposited into the bank. */
+		"bank": Number,
+		/** The amount of money a user has deposited into their card. */
+		"card": Number,
+	},
 });
 
 /**
