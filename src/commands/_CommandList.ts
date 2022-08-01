@@ -2,8 +2,8 @@ import { CommandList } from "../classes/CommandList";
 import { balance } from "./economy/balance";
 import { crime } from "./economy/crime";
 import { work } from "./economy/work";
-import { veemo } from "./veemo";
-import { woomy } from "./woomy";
+import { veemo } from "./miscellaneous/veemo";
+import { woomy } from "./miscellaneous/woomy";
 
 /**
  * The list of commands to be registered when the Client starts.
