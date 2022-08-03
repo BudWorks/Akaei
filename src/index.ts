@@ -1,4 +1,5 @@
 import { Client, GatewayIntentBits, Interaction } from "discord.js";
+import { connectDatabase } from "./database/connectDatabase";
 import { onInteraction } from "./events/onInteraction";
 import { onReady } from "./events/onReady";
 
@@ -14,5 +15,7 @@ client.on(
 	async (interaction: Interaction) => await onInteraction(interaction, client),
 );
 
+// Connect to database
+connectDatabase();
 // Login with token
 client.login(process.env.CLIENT_TOKEN);
