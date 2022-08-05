@@ -12,7 +12,7 @@ export class Job {
 		[ "Fast Food", "Being the %position% for a fast food place is hard work, and doesn't pay well at all! You'll probably take it anyways though." ],
 		[ "Piggly Wiggly", "If you want a well-paid %position% position at Piggly Wiggly, don't hold your breath! It may not have amazing rates but rest assured, this place is to die for!" ],
 		[ "Real Estate", "Real estate may sound boring, but it is! Being a useful %position% might make it better though." ],
-		[ "Clowny the", "You can take the %position% role under one condition: You will be referred to by all as Clowny the %position%." ],
+		[ "Clowny the", "You can take the %position% role under one condition: You will always be referred to as Clowny." ],
 		[ "Mall", "Who cares if malls are all but dead these days? That just means they're always on the lookout for more %position% workers!" ],
 		[ "FBI", "We can't talk about this job publicly." ],
 		[ "Self-taught", "What better way to enter the %position% industry than doing it entirely on your own!" ],
