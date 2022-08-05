@@ -25,25 +25,25 @@ const run = async (interaction: CommandInteraction) => {
 	const jobThree = new Job();
 
 	// Embed displaying the job choices
-	const workEmbed = new EmbedBuilder()
-		.setTitle("Work")
-		.setDescription("Please select from one of the following jobs.")
-		.setThumbnail("https://cdn.discordapp.com/emojis/684043360624705606")
-		.setColor(0xffc27e)
-		.addFields(
-			{
-				"name": `<:option1:785555664856547378> \`${ jobOne.title }\``,
-				"value": `Pay: ~<:raycoin:684043360624705606>500\n${ jobOne.description }`,
-			},
-			{
-				"name": `<:option2:785555675144257536> \`${ jobTwo.title }\``,
-				"value": `Pay: ~<:raycoin:684043360624705606>1000\n${ jobTwo.description }`,
-			},
-			{
-				"name": `<:option3:785555684799938630> \`${ jobThree.title }\``,
-				"value": `Pay: ~<:raycoin:684043360624705606>1500\n${ jobThree.description }`,
-			},
-		);
+	const workEmbed = new EmbedBuilder();
+	workEmbed.setTitle("Work");
+	workEmbed.setDescription("Please select from one of the following jobs.");
+	workEmbed.setColor(0xffc27e);
+	workEmbed.setThumbnail("https://cdn.discordapp.com/emojis/684043360624705606");
+	workEmbed.addFields(
+		{
+			"name": `<:option1:785555664856547378> \`${ jobOne.title }\``,
+			"value": `Pay: ~<:raycoin:684043360624705606>500\n${ jobOne.description }`,
+		},
+		{
+			"name": `<:option2:785555675144257536> \`${ jobTwo.title }\``,
+			"value": `Pay: ~<:raycoin:684043360624705606>1000\n${ jobTwo.description }`,
+		},
+		{
+			"name": `<:option3:785555684799938630> \`${ jobThree.title }\``,
+			"value": `Pay: ~<:raycoin:684043360624705606>1500\n${ jobThree.description }`,
+		},
+	);
 
 	// The select menu for picking a job
 	const workSelectMenu = new SelectMenuBuilder()

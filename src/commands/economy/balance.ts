@@ -29,49 +29,49 @@ const run = async (interaction: CommandInteraction) => {
 	const balanceData = await getBalance(optUser.id, optUser.username);
 
 	// Embed containing all of the balance info
-	const balanceEmbed = new EmbedBuilder()
-		.setTitle(`Balance of ${ optUser.username }`)
-		.setColor(0xffc27e)
-		.addFields(
-			{
-				"name": "Cash",
-				"value": `<:raycoin:684043360624705606>${ balanceData.balance.cash }`,
-				"inline": true,
-			},
-			{
-				"name": "Bank",
-				"value": `<:raycoin:684043360624705606>${ balanceData.balance.bank }`,
-				"inline": true,
-			},
-			{
-				"name": "\u200b",
-				"value": "\u200b",
-				"inline": true,
-			},
-			{
-				"name": "Coin Card",
-				"value": `<:raycoin:684043360624705606>${ balanceData.balance.card }`,
-				"inline": true,
-			},
-			{
-				"name": "Net Worth",
-				"value": `<:raycoin:684043360624705606>${
-					balanceData.balance.cash +
-					balanceData.balance.bank +
-					balanceData.balance.card
-				}`,
-				"inline": true,
-			},
-			{
-				"name": "\u200b",
-				"value": "\u200b",
-				"inline": true,
-			},
-		)
-		.setFooter({
-			"text": `ID: ${ balanceData.id }`,
-			"iconURL": optUser.displayAvatarURL(),
-		});
+	const balanceEmbed = new EmbedBuilder();
+	balanceEmbed.setTitle(`Balance of ${ optUser.username }`);
+	balanceEmbed.setColor(0xffc27e);
+	balanceEmbed.addFields(
+		{
+			"name": "Cash",
+			"value": `<:raycoin:684043360624705606>${ balanceData.balance.cash }`,
+			"inline": true,
+		},
+		{
+			"name": "Bank",
+			"value": `<:raycoin:684043360624705606>${ balanceData.balance.bank }`,
+			"inline": true,
+		},
+		{
+			"name": "\u200b",
+			"value": "\u200b",
+			"inline": true,
+		},
+		{
+			"name": "Coin Card",
+			"value": `<:raycoin:684043360624705606>${ balanceData.balance.card }`,
+			"inline": true,
+		},
+		{
+			"name": "Net Worth",
+			"value": `<:raycoin:684043360624705606>${
+				balanceData.balance.cash +
+				balanceData.balance.bank +
+				balanceData.balance.card
+			}`,
+			"inline": true,
+		},
+		{
+			"name": "\u200b",
+			"value": "\u200b",
+			"inline": true,
+		},
+	);
+	balanceEmbed.setFooter({
+		"text": `ID: ${ balanceData.id }`,
+		"iconURL": optUser.displayAvatarURL(),
+	});
 
 	// Respond with the balance embed
 	await interaction.editReply({ "embeds": [ balanceEmbed ] });
