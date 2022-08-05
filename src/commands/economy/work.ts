@@ -45,38 +45,44 @@ const run = async (interaction: CommandInteraction) => {
 			},
 		);
 
-	// Action row containing the job select menu
-	const workSelectMenuRow =
-		new ActionRowBuilder<SelectMenuBuilder>().addComponents(new SelectMenuBuilder()
-			.setCustomId("workSelectMenu")
-			.setPlaceholder("Select a job")
-			.addOptions([
-				{
-					"label": jobOne.title,
-					"description": "Cooldown: 2 hours",
-					"emoji": "785555664856547378",
-					"value": "jobOne",
-				},
-				{
-					"label": jobTwo.title,
-					"description": "Cooldown: 5 hours",
-					"emoji": "785555675144257536",
-					"value": "jobTwo",
-				},
-				{
-					"label": jobThree.title,
-					"description": "Cooldown: 8 hours",
-					"emoji": "785555684799938630",
-					"value": "jobThree",
-				},
-			]));
+	// The select menu for picking a job
+	const workSelectMenu = new SelectMenuBuilder()
+		.setCustomId("workSelectMenu")
+		.setPlaceholder("Select a job")
+		.addOptions([
+			{
+				"label": jobOne.title,
+				"description": "Cooldown: 2 hours",
+				"emoji": "785555664856547378",
+				"value": "jobOne",
+			},
+			{
+				"label": jobTwo.title,
+				"description": "Cooldown: 5 hours",
+				"emoji": "785555675144257536",
+				"value": "jobTwo",
+			},
+			{
+				"label": jobThree.title,
+				"description": "Cooldown: 8 hours",
+				"emoji": "785555684799938630",
+				"value": "jobThree",
+			},
+		]);
 
-	// Action row containing the buttons
-	const workButtonRow = new ActionRowBuilder<ButtonBuilder>().addComponents(new ButtonBuilder()
+	// The button to cancel the job selection process
+	const workCancelButton = new ButtonBuilder()
 		.setCustomId("cancelButton")
 		.setLabel("Cancel")
 		.setStyle(ButtonStyle.Danger)
-		.setEmoji("785336733696262154"));
+		.setEmoji("785336733696262154");
+
+	// Action row containing the select menu
+	const workSelectMenuRow =
+		new ActionRowBuilder<SelectMenuBuilder>().addComponents(workSelectMenu);
+
+	// Action row containing the button
+	const workButtonRow = new ActionRowBuilder<ButtonBuilder>().addComponents(workCancelButton);
 
 	await interaction.editReply({
 		"embeds": [ workEmbed ],
