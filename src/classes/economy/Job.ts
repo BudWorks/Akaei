@@ -42,14 +42,20 @@ export class Job {
 	private _position: string;
 	/** The isolated randomly selected job description. */
 	private _jobDesc: string;
+	/** The base pay for a job. */
+	private _pay: number;
+	/** The cooldown time before another job can be worked. */
+	private _cooldown: number;
 
-	constructor () {
+	constructor (pay: number, cooldown: number) {
 		this._jobInfo =
 			Job._jobArray[Math.floor(Math.random() * Job._jobArray.length)];
 		this._job = this._jobInfo[0];
 		this._position =
 			Job._posArray[Math.floor(Math.random() * Job._posArray.length)];
 		this._jobDesc = this._jobInfo[1].replace("%position%", this._position);
+		this._pay = pay;
+		this._cooldown = cooldown;
 	}
 
 	/** The full job title. */
@@ -60,5 +66,15 @@ export class Job {
 	/** The job's description. */
 	get description () {
 		return this._jobDesc;
+	}
+
+	/** The job's pay. */
+	get pay () {
+		return this._pay;
+	}
+
+	/** The job's cooldown time. */
+	get cooldown () {
+		return this._cooldown;
 	}
 }

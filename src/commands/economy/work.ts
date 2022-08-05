@@ -20,9 +20,9 @@ const run = async (interaction: CommandInteraction) => {
 	await interaction.deferReply();
 
 	// Creates three randomly generated job titles
-	const jobOne = new Job();
-	const jobTwo = new Job();
-	const jobThree = new Job();
+	const jobOne = new Job(500, 2);
+	const jobTwo = new Job(1000, 5);
+	const jobThree = new Job(1500, 8);
 
 	// Embed displaying the job choices
 	const workEmbed = new EmbedBuilder();
@@ -33,15 +33,15 @@ const run = async (interaction: CommandInteraction) => {
 	workEmbed.addFields(
 		{
 			"name": `<:option1:785555664856547378> \`${ jobOne.title }\``,
-			"value": `Pay: ~<:raycoin:684043360624705606>500\n${ jobOne.description }`,
+			"value": `Pay: ~<:raycoin:684043360624705606>${ jobOne.pay }\n${ jobOne.description }`,
 		},
 		{
 			"name": `<:option2:785555675144257536> \`${ jobTwo.title }\``,
-			"value": `Pay: ~<:raycoin:684043360624705606>1000\n${ jobTwo.description }`,
+			"value": `Pay: ~<:raycoin:684043360624705606>${ jobTwo.pay }\n${ jobTwo.description }`,
 		},
 		{
 			"name": `<:option3:785555684799938630> \`${ jobThree.title }\``,
-			"value": `Pay: ~<:raycoin:684043360624705606>1500\n${ jobThree.description }`,
+			"value": `Pay: ~<:raycoin:684043360624705606>${ jobThree.pay }\n${ jobThree.description }`,
 		},
 	);
 
@@ -52,19 +52,19 @@ const run = async (interaction: CommandInteraction) => {
 		.addOptions([
 			{
 				"label": jobOne.title,
-				"description": "Cooldown: 2 hours",
+				"description": `Cooldown: ${ jobOne.cooldown } hours`,
 				"emoji": "785555664856547378",
 				"value": "jobOne",
 			},
 			{
 				"label": jobTwo.title,
-				"description": "Cooldown: 5 hours",
+				"description": `Cooldown: ${ jobTwo.cooldown } hours`,
 				"emoji": "785555675144257536",
 				"value": "jobTwo",
 			},
 			{
 				"label": jobThree.title,
-				"description": "Cooldown: 8 hours",
+				"description": `Cooldown: ${ jobThree.cooldown } hours`,
 				"emoji": "785555684799938630",
 				"value": "jobThree",
 			},
