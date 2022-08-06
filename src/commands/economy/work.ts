@@ -13,6 +13,9 @@ import { Command } from "../../classes/Command";
 import { Job } from "../../classes/economy/Job";
 import { getBalance, updateBalance } from "../../utils/userBalance";
 
+// Set to prevent user from using /work multiple times in a row
+const workingUser = new Set();
+
 /** The data of the command, including subcommands and options if applicable. */
 const data = new SlashCommandBuilder()
 	.setName("work")
@@ -97,6 +100,27 @@ const run = async (interaction: CommandInteraction) => {
 	// Action row containing the button
 	const workButtonRow = new ActionRowBuilder<ButtonBuilder>().addComponents(workCancelButton);
 
+	// Check if the user is already in the workingUser set or not. If they are, the command will end here.
+	if (workingUser.has(user.id)) {
+		workEndEmbed.setColor(0xff7a90);
+		workEndEmbed.addFields({
+			"name": "<:no:785336733696262154> Slow down, workaholic!",
+			"value":
+				"You're already selecting a job, silly! You've gotta either wait or cancel to use the command again.",
+		});
+
+		await interaction.editReply({
+			"embeds": [ workEndEmbed ],
+		});
+		return;
+	}
+
+	// Add the user to the set and remove them after 30 seconds (the time it takes for the embed to close automatically).
+	workingUser.add(user.id);
+	setTimeout(() => {
+		workingUser.delete(user.id);
+	}, 30000);
+
 	// The job select response with the menu and button
 	const response = await interaction.editReply({
 		"embeds": [ workStartEmbed ],
@@ -113,7 +137,7 @@ const run = async (interaction: CommandInteraction) => {
 		// The second interaction from the user, either from the select menu or the button
 		const componentInteraction = await response.awaitMessageComponent({
 			"filter": filter,
-			"time": 60000,
+			"time": 30000,
 		});
 
 		let jobTitle: string;
@@ -155,6 +179,8 @@ const run = async (interaction: CommandInteraction) => {
 					"value": "Looks like there was an issue with the command!",
 				});
 
+				workingUser.delete(user.id);
+
 				await interaction.editReply({
 					"embeds": [ workEndEmbed ],
 					"components": [],
@@ -173,6 +199,8 @@ const run = async (interaction: CommandInteraction) => {
 				"value": `You've earned <:raycoin:684043360624705606>${ jobPay } from working as a ${ jobTitle }!\nYou can work again in ${ cooldown } hours.`,
 			});
 
+			workingUser.delete(user.id);
+
 			await interaction.editReply({
 				"embeds": [ workEndEmbed ],
 				"components": [],
@@ -186,6 +214,8 @@ const run = async (interaction: CommandInteraction) => {
 				"value":
 					"Just lemme know if you'd ever like to work a job in the future!",
 			});
+
+			workingUser.delete(user.id);
 
 			await interaction.editReply({
 				"embeds": [ workEndEmbed ],
@@ -201,6 +231,8 @@ const run = async (interaction: CommandInteraction) => {
 			"value":
 				"Looks like you took too long to respond. Just lemme know if you'd ever like to work a job in the future!",
 		});
+
+		workingUser.delete(user.id);
 
 		await interaction.editReply({
 			"embeds": [ workEndEmbed ],
