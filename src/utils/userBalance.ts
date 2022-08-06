@@ -1,4 +1,4 @@
-import { User } from "../database/models/User";
+import { User, UserDocument } from "../database/models/User";
 
 /**
  * Finds and returns the balance data of the specified user.
@@ -35,4 +35,17 @@ export async function getBalance (id: string, username: string) {
 		// Returns the User's balance data
 		return user;
 	}
+}
+
+/**
+ * Updates the user's current cash amount. Positive amounts add, negative amounts subtract.
+ * @param user The user who's balance will be updated.
+ * @param amount The amount of cash that will be added or subtracted from the user's balance.
+ * @returns Returns an object of the user's balance data.
+ */
+export async function updateBalance (user: UserDocument, amount: number) {
+	const cash = user.balance.cash;
+	user.balance.cash = cash + amount;
+	await user.save();
+	return user;
 }
