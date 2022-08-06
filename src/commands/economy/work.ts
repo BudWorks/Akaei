@@ -3,7 +3,9 @@ import {
 	ButtonBuilder,
 	ButtonStyle,
 	CommandInteraction,
+	ComponentType,
 	EmbedBuilder,
+	MessageComponentInteraction,
 	SelectMenuBuilder,
 	SlashCommandBuilder,
 } from "discord.js";
@@ -25,12 +27,12 @@ const run = async (interaction: CommandInteraction) => {
 	const jobThree = new Job(1500, 8);
 
 	// Embed displaying the job choices
-	const workEmbed = new EmbedBuilder();
-	workEmbed.setTitle("Work");
-	workEmbed.setDescription("Please select from one of the following jobs.");
-	workEmbed.setColor(0xffc27e);
-	workEmbed.setThumbnail("https://cdn.discordapp.com/emojis/684043360624705606");
-	workEmbed.addFields(
+	const workStartEmbed = new EmbedBuilder();
+	workStartEmbed.setTitle("Work");
+	workStartEmbed.setDescription("Please select from one of the following jobs.");
+	workStartEmbed.setColor(0xffc27e);
+	workStartEmbed.setThumbnail("https://cdn.discordapp.com/emojis/684043360624705606");
+	workStartEmbed.addFields(
 		{
 			"name": `<:option1:785555664856547378> \`${ jobOne.title }\``,
 			"value": `Pay: ~<:raycoin:684043360624705606>${ jobOne.pay }\n${ jobOne.description }`,
@@ -44,6 +46,10 @@ const run = async (interaction: CommandInteraction) => {
 			"value": `Pay: ~<:raycoin:684043360624705606>${ jobThree.pay }\n${ jobThree.description }`,
 		},
 	);
+
+	// Embed sent at the end of the command process
+	const workEndEmbed = new EmbedBuilder();
+	workEndEmbed.setColor(0x80dbb5);
 
 	// The select menu for picking a job
 	const workSelectMenu = new SelectMenuBuilder()
@@ -84,10 +90,114 @@ const run = async (interaction: CommandInteraction) => {
 	// Action row containing the button
 	const workButtonRow = new ActionRowBuilder<ButtonBuilder>().addComponents(workCancelButton);
 
-	await interaction.editReply({
-		"embeds": [ workEmbed ],
+	// The job select response with the menu and button
+	const response = await interaction.editReply({
+		"embeds": [ workStartEmbed ],
 		"components": [ workSelectMenuRow, workButtonRow ],
 	});
+
+	// The interaction collector filter
+	const filter = (i: MessageComponentInteraction) => {
+		i.deferUpdate();
+		return i.user.id === interaction.user.id;
+	};
+
+	try {
+		// The second interaction from the user, either from the select menu or the button
+		const componentInteraction = await response.awaitMessageComponent({
+			"filter": filter,
+			"time": 60000,
+		});
+
+		let jobTitle: string;
+		let jobPay: number;
+		let cooldown: number;
+
+		// If the interaction was from the select menu
+		if (componentInteraction.componentType === ComponentType.SelectMenu) {
+			// Check which job was selected
+			switch (componentInteraction.values[0]) {
+			case "jobOne":
+				jobTitle = jobOne.title;
+				jobPay = jobOne.pay;
+				cooldown = jobOne.cooldown;
+				break;
+
+			case "jobTwo":
+				jobTitle = jobTwo.title;
+				jobPay = jobTwo.pay;
+				cooldown = jobTwo.cooldown;
+				break;
+
+			case "jobThree":
+				jobTitle = jobThree.title;
+				jobPay = jobThree.pay;
+				cooldown = jobThree.cooldown;
+				break;
+
+			default:
+				/*
+				This should never be seen.
+				This is just a placeholder until I add actual
+				error handling, which I'll be doing soon.
+				Too bad!
+				*/
+				workEndEmbed.setColor(0xff7a90);
+				workEndEmbed.addFields({
+					"name": "<:no:785336733696262154> That's not right!",
+					"value": "Looks like there was an issue with the command!",
+				});
+
+				await interaction.editReply({
+					"embeds": [ workEndEmbed ],
+					"components": [],
+				});
+				return;
+			}
+
+			// Update embed to the job completion response
+			workEndEmbed.setColor(0xffc27e);
+			workEndEmbed.setThumbnail("https://cdn.discordapp.com/emojis/684043360624705606");
+			workEndEmbed.addFields({
+				"name": "<:raycoin:684043360624705606> Work completed!",
+				"value": `You've earned <:raycoin:684043360624705606>${ jobPay } from working as a ${ jobTitle }!\nYou can work again in ${ cooldown } hours.`,
+			});
+
+			await interaction.editReply({
+				"embeds": [ workEndEmbed ],
+				"components": [],
+			});
+			return;
+		}
+		else if (componentInteraction.componentType === ComponentType.Button) {
+			// Update embed to the job cancel response
+			workEndEmbed.addFields({
+				"name": "<:yes:785336714566172714> Work canceled!",
+				"value":
+					"Just lemme know if you'd ever like to work a job in the future!",
+			});
+
+			await interaction.editReply({
+				"embeds": [ workEndEmbed ],
+				"components": [],
+			});
+			return;
+		}
+	}
+	catch {
+		// Update embed due to no response from the user
+		workEndEmbed.addFields({
+			"name": "<:yes:785336714566172714> Work canceled!",
+			"value":
+				"Looks like you took too long to respond. Just lemme know if you'd ever like to work a job in the future!",
+		});
+
+		await interaction.editReply({
+			"embeds": [ workEndEmbed ],
+			"components": [],
+		});
+		return;
+	}
 };
 
 export const work: Command = new Command(data, run);
