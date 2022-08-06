@@ -11,6 +11,7 @@ import {
 } from "discord.js";
 import { Command } from "../../classes/Command";
 import { Job } from "../../classes/economy/Job";
+import { getBalance, updateBalance } from "../../utils/userBalance";
 
 /** The data of the command, including subcommands and options if applicable. */
 const data = new SlashCommandBuilder()
@@ -20,6 +21,12 @@ const data = new SlashCommandBuilder()
 /** The code that executes when a command is used. */
 const run = async (interaction: CommandInteraction) => {
 	await interaction.deferReply();
+
+	// The User that sent the interaction.
+	const { user } = interaction;
+
+	// The balance data of the intUser.
+	const balanceData = await getBalance(user.id, user.username);
 
 	// Creates three randomly generated job titles
 	const jobOne = new Job(500, 2);
@@ -154,6 +161,9 @@ const run = async (interaction: CommandInteraction) => {
 				});
 				return;
 			}
+
+			// Update the user's cash
+			updateBalance(balanceData, jobPay);
 
 			// Update embed to the job completion response
 			workEndEmbed.setColor(0xffc27e);
