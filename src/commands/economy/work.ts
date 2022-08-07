@@ -32,9 +32,9 @@ const run = async (interaction: CommandInteraction) => {
 	const balanceData = await getBalance(user.id, user.username);
 
 	// Creates three randomly generated job titles
-	const jobOne = new Job(500, 2);
-	const jobTwo = new Job(1000, 5);
-	const jobThree = new Job(1500, 8);
+	const jobOne = new Job(500, 700, 2);
+	const jobTwo = new Job(1000, 1200, 5);
+	const jobThree = new Job(1500, 1700, 8);
 
 	// Embed displaying the job choices
 	const workStartEmbed = new EmbedBuilder();
@@ -45,15 +45,15 @@ const run = async (interaction: CommandInteraction) => {
 	workStartEmbed.addFields(
 		{
 			"name": `<:option1:785555664856547378> \`${ jobOne.title }\``,
-			"value": `Pay: ~<:raycoin:684043360624705606>${ jobOne.pay }\n${ jobOne.description }`,
+			"value": `Pay: ~<:raycoin:684043360624705606>${ jobOne.basePay }\n${ jobOne.description }`,
 		},
 		{
 			"name": `<:option2:785555675144257536> \`${ jobTwo.title }\``,
-			"value": `Pay: ~<:raycoin:684043360624705606>${ jobTwo.pay }\n${ jobTwo.description }`,
+			"value": `Pay: ~<:raycoin:684043360624705606>${ jobTwo.basePay }\n${ jobTwo.description }`,
 		},
 		{
 			"name": `<:option3:785555684799938630> \`${ jobThree.title }\``,
-			"value": `Pay: ~<:raycoin:684043360624705606>${ jobThree.pay }\n${ jobThree.description }`,
+			"value": `Pay: ~<:raycoin:684043360624705606>${ jobThree.basePay }\n${ jobThree.description }`,
 		},
 	);
 
