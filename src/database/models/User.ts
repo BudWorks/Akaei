@@ -17,6 +17,16 @@ export interface UserInterface {
 		/** The amount of money a user has deposited into their card. */
 		card: number;
 	};
+	/** The cooldowns that a user is currently undergoing. */
+	cooldowns: {
+		/** The cooldown data for `/work`. */
+		work: {
+			/** The date in ms in which the cooldown will finish. */
+			endTime: number;
+			/** The Snowflake ID of the channel the initial interaction was used in, to send a notification. */
+			channelId: string;
+		};
+	};
 }
 
 /**
@@ -40,6 +50,16 @@ const userSchema = new Schema<UserInterface>({
 		"bank": Number,
 		/** The amount of money a user has deposited into their card. */
 		"card": Number,
+	},
+	/** The cooldowns that a user is currently undergoing. */
+	"cooldowns": {
+		/** The cooldown data for `/work`. */
+		"work": {
+			/** The date in ms in which the cooldown will finish. */
+			"endTime": Number,
+			/** The Snowflake ID of the channel the initial interaction was used in, to send a notification. */
+			"channelId": String,
+		},
 	},
 });
 
