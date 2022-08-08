@@ -88,4 +88,9 @@ export class Job {
 	get cooldown () {
 		return this._cooldown;
 	}
+
+	/** The job's cooldown time in milliseconds. */
+	get cooldownMs () {
+		return this._cooldown * 60 * 60 * 1000;
+	}
 }
