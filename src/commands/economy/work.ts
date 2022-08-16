@@ -28,8 +28,27 @@ const run = async (interaction: CommandInteraction) => {
 	// The User that sent the interaction.
 	const { user } = interaction;
 
-	// The balance data of the intUser.
+	// The balance data of the user.
 	const balanceData = await getBalance(user.id, user.username);
+
+	// Embed sent at the end of the command process
+	const workEndEmbed = new EmbedBuilder();
+	workEndEmbed.setColor(0xffc27e);
+
+	// Check if the user is already in the workingUser set or not. If they are, the command will end here.
+	if (workingUser.has(user.id)) {
+		workEndEmbed.setColor(0xff7a90);
+		workEndEmbed.addFields({
+			"name": "<:no:785336733696262154> Slow down, workaholic!",
+			"value":
+				"You're already selecting a job, silly! You've gotta either wait or cancel to use the command again.",
+		});
+
+		await interaction.editReply({
+			"embeds": [ workEndEmbed ],
+		});
+		return;
+	}
 
 	// Creates three randomly generated job titles
 	const jobOne = new Job(500, 700, 2);
@@ -56,10 +75,6 @@ const run = async (interaction: CommandInteraction) => {
 			"value": `Pay: ~<:raycoin:684043360624705606>${ jobThree.basePay }\n${ jobThree.description }`,
 		},
 	);
-
-	// Embed sent at the end of the command process
-	const workEndEmbed = new EmbedBuilder();
-	workEndEmbed.setColor(0xffc27e);
 
 	// The select menu for picking a job
 	const workSelectMenu = new SelectMenuBuilder()
@@ -99,21 +114,6 @@ const run = async (interaction: CommandInteraction) => {
 
 	// Action row containing the button
 	const workButtonRow = new ActionRowBuilder<ButtonBuilder>().addComponents(workCancelButton);
-
-	// Check if the user is already in the workingUser set or not. If they are, the command will end here.
-	if (workingUser.has(user.id)) {
-		workEndEmbed.setColor(0xff7a90);
-		workEndEmbed.addFields({
-			"name": "<:no:785336733696262154> Slow down, workaholic!",
-			"value":
-				"You're already selecting a job, silly! You've gotta either wait or cancel to use the command again.",
-		});
-
-		await interaction.editReply({
-			"embeds": [ workEndEmbed ],
-		});
-		return;
-	}
 
 	// Add the user to the set and remove them after 30 seconds (the time it takes for the embed to close automatically).
 	workingUser.add(user.id);
