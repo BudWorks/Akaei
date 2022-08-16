@@ -59,7 +59,7 @@ const run = async (interaction: CommandInteraction) => {
 
 	// Embed sent at the end of the command process
 	const workEndEmbed = new EmbedBuilder();
-	workEndEmbed.setColor(0x80dbb5);
+	workEndEmbed.setColor(0xffc27e);
 
 	// The select menu for picking a job
 	const workSelectMenu = new SelectMenuBuilder()
@@ -192,7 +192,6 @@ const run = async (interaction: CommandInteraction) => {
 			updateBalance(balanceData, jobPay);
 
 			// Update embed to the job completion response
-			workEndEmbed.setColor(0xffc27e);
 			workEndEmbed.setThumbnail("https://cdn.discordapp.com/emojis/684043360624705606");
 			workEndEmbed.addFields({
 				"name": "<:raycoin:684043360624705606> Work completed!",
@@ -209,6 +208,7 @@ const run = async (interaction: CommandInteraction) => {
 		}
 		else if (componentInteraction.componentType === ComponentType.Button) {
 			// Update embed to the job cancel response
+			workEndEmbed.setColor(0x80dbb5);
 			workEndEmbed.addFields({
 				"name": "<:yes:785336714566172714> Work canceled!",
 				"value":
@@ -226,6 +226,7 @@ const run = async (interaction: CommandInteraction) => {
 	}
 	catch {
 		// Update embed due to no response from the user
+		workEndEmbed.setColor(0x80dbb5);
 		workEndEmbed.addFields({
 			"name": "<:yes:785336714566172714> Work canceled!",
 			"value":
