@@ -12,6 +12,7 @@ import {
 import { Command } from "../../classes/Command";
 import { Job } from "../../classes/economy/Job";
 import { getBalance, updateBalance } from "../../utils/userBalance";
+import { getCooldown } from "../../utils/userCooldown";
 
 // Set to prevent user from using /work multiple times in a row
 const workingUser = new Set();
@@ -28,12 +29,28 @@ const run = async (interaction: CommandInteraction) => {
 	// The User that sent the interaction.
 	const { user } = interaction;
 
-	// The balance data of the user.
+	// The balance and cooldown data of the user.
 	const balanceData = await getBalance(user.id, user.username);
+	const cooldownData = await getCooldown(user.id, "cooldowns.work");
 
 	// Embed sent at the end of the command process
 	const workEndEmbed = new EmbedBuilder();
 	workEndEmbed.setColor(0xffc27e);
+
+	// Check if the user has a work cooldown or not. If they do, the command will end here.
+	if (cooldownData?.cooldowns.work.endTime) {
+		workEndEmbed.setColor(0xff7a90);
+		workEndEmbed.addFields({
+			"name": "<:no:785336733696262154> Slow down, workaholic!",
+			"value":
+				"You still have ??:??:?? left before you can work again. I appreciate the effort though!",
+		});
+
+		await interaction.editReply({
+			"embeds": [ workEndEmbed ],
+		});
+		return;
+	}
 
 	// Check if the user is already in the workingUser set or not. If they are, the command will end here.
 	if (workingUser.has(user.id)) {
