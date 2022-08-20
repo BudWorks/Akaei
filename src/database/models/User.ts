@@ -1,4 +1,15 @@
 import { Document, model, Schema } from "mongoose";
+/**
+ * The interface for the user's cooldowns.
+ */
+export interface CooldownInterface {
+	/** The type of cooldown. */
+	type: string;
+	/** The date in ms in which the cooldown will finish. */
+	endTime: number;
+	/** The Snowflake ID of the channel the initial interaction was used in, to send a notification. */
+	channelId: string;
+}
 
 /**
  * The interface representing the User document.
@@ -18,15 +29,7 @@ export interface UserInterface {
 		card: number;
 	};
 	/** The cooldowns that a user is currently undergoing. */
-	cooldowns: {
-		/** The cooldown data for `/work`. */
-		work: {
-			/** The date in ms in which the cooldown will finish. */
-			endTime: number;
-			/** The Snowflake ID of the channel the initial interaction was used in, to send a notification. */
-			channelId: string;
-		};
-	};
+	cooldowns: [CooldownInterface];
 }
 
 /**
@@ -52,15 +55,14 @@ const userSchema = new Schema<UserInterface>({
 		"card": Number,
 	},
 	/** The cooldowns that a user is currently undergoing. */
-	"cooldowns": {
-		/** The cooldown data for `/work`. */
-		"work": {
-			/** The date in ms in which the cooldown will finish. */
-			"endTime": Number,
-			/** The Snowflake ID of the channel the initial interaction was used in, to send a notification. */
-			"channelId": String,
-		},
-	},
+	"cooldowns": [ new Schema<CooldownInterface>({
+		/** The type of cooldown. */
+		"type": String,
+		/** The date in ms in which the cooldown will finish. */
+		"endTime": Number,
+		/** The Snowflake ID of the channel the initial interaction was used in, to send a notification. */
+		"channelId": String,
+	}) ],
 });
 
 /**

@@ -6,7 +6,7 @@ import { User } from "../database/models/User";
  * @param cooldownType The field to get the cooldown from, depending on the command.
  * @returns Returns an object of the user's specified cooldown data.
  */
-export async function getCooldown (id: string, cooldownType: string) {
+export async function getCooldown (id: string) {
 	/** The cooldown data of the specified User. */
-	return await User.findOne({ "_id": id }, cooldownType);
+	return await User.findOne({ "_id": id }, "cooldowns");
 }

@@ -31,14 +31,14 @@ const run = async (interaction: CommandInteraction) => {
 
 	// The balance and cooldown data of the user.
 	const balanceData = await getBalance(user.id, user.username);
-	const cooldownData = await getCooldown(user.id, "cooldowns.work");
+	const cooldownData = await getCooldown(user.id);
 
 	// Embed sent at the end of the command process
 	const workEndEmbed = new EmbedBuilder();
 	workEndEmbed.setColor(0xffc27e);
 
 	// Check if the user has a work cooldown or not. If they do, the command will end here.
-	if (cooldownData?.cooldowns.work.endTime) {
+	if (cooldownData?.cooldowns.some((cooldown) => cooldown.type === "work")) {
 		workEndEmbed.setColor(0xff7a90);
 		workEndEmbed.addFields({
 			"name": "<:no:785336733696262154> Slow down, workaholic!",
