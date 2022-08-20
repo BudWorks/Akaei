@@ -1,4 +1,4 @@
-import { User } from "../database/models/User";
+import { User, UserDocument } from "../database/models/User";
 
 /**
  * Finds and returns the specified cooldown data of the specified user.
@@ -23,4 +23,27 @@ export async function getCooldown (id: string, username: string) {
 		// Returns the User's cooldown data
 		return user;
 	}
+}
+
+/**
+ * Creates a cooldown in the user's array of current cooldowns.
+ * @param user The user whom the cooldown will be set for.
+ * @param type The type of cooldown being set, depending on the command used.
+ * @param endTime The time in ms in which the cooldown will finish.
+ * @param channelId The Snowflake ID of the channel the initial interaction was used in, to send a notification.
+ * @returns Returns an object of the user's cooldown data.
+ */
+export async function addCooldown (
+	user: UserDocument,
+	type: string,
+	endTime: number,
+	channelId: string,
+) {
+	user.cooldowns.push({
+		"type": type,
+		"endTime": endTime,
+		"channelId": channelId,
+	});
+	await user.save();
+	return user;
 }

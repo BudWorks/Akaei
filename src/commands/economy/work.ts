@@ -12,7 +12,7 @@ import {
 import { Command } from "../../classes/Command";
 import { Job } from "../../classes/economy/Job";
 import { getBalance, updateBalance } from "../../utils/userBalance";
-import { getCooldown } from "../../utils/userCooldown";
+import { addCooldown, getCooldown } from "../../utils/userCooldown";
 
 // Set to prevent user from using /work multiple times in a row
 const workingUser = new Set();
@@ -27,7 +27,7 @@ const run = async (interaction: CommandInteraction) => {
 	await interaction.deferReply();
 
 	// The User that sent the interaction.
-	const { user } = interaction;
+	const { channel, user } = interaction;
 
 	// The balance and cooldown data of the user.
 	const balanceData = await getBalance(user.id, user.username);
@@ -160,6 +160,7 @@ const run = async (interaction: CommandInteraction) => {
 		let jobTitle: string;
 		let jobPay: number;
 		let cooldown: number;
+		let endTime: number;
 
 		// If the interaction was from the select menu
 		if (componentInteraction.componentType === ComponentType.SelectMenu) {
@@ -169,18 +170,21 @@ const run = async (interaction: CommandInteraction) => {
 				jobTitle = jobOne.title;
 				jobPay = jobOne.pay;
 				cooldown = jobOne.cooldown;
+				endTime = jobOne.endTime;
 				break;
 
 			case "jobTwo":
 				jobTitle = jobTwo.title;
 				jobPay = jobTwo.pay;
 				cooldown = jobTwo.cooldown;
+				endTime = jobTwo.endTime;
 				break;
 
 			case "jobThree":
 				jobTitle = jobThree.title;
 				jobPay = jobThree.pay;
 				cooldown = jobThree.cooldown;
+				endTime = jobThree.endTime;
 				break;
 
 			default:
@@ -205,8 +209,9 @@ const run = async (interaction: CommandInteraction) => {
 				return;
 			}
 
-			// Update the user's cash
+			// Update the user's cash and create a cooldown linked to them for this command
 			updateBalance(balanceData, jobPay);
+			addCooldown(cooldownData, "work", endTime, channel?.id ?? user.id);
 
 			// Update embed to the job completion response
 			workEndEmbed.setThumbnail("https://cdn.discordapp.com/emojis/684043360624705606");
