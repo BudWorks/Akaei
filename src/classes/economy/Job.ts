@@ -93,4 +93,8 @@ export class Job {
 	get cooldownMs () {
 		return this._cooldown * 60 * 60 * 1000;
 	}
+
+	get endTime () {
+		return Date.now() + this.cooldownMs;
+	}
 }
