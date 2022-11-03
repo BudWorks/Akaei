@@ -11,6 +11,7 @@ import {
 } from "discord.js";
 import { Command } from "../../classes/Command";
 import { Job } from "../../classes/economy/Job";
+import { msToTimer } from "../../utils/formatDateTime";
 import { getBalance, updateBalance } from "../../utils/userBalance";
 import { addCooldown, getCooldown } from "../../utils/userCooldown";
 
@@ -39,11 +40,16 @@ const run = async (interaction: CommandInteraction) => {
 
 	// Check if the user has a work cooldown or not. If they do, the command will end here.
 	if (cooldownData.cooldowns.some((cooldown) => cooldown.type === "work")) {
+		// The difference in time between the end of the cooldown and the current date in ms.
+		const timeDiff = cooldownData.cooldowns[0].endTime - Date.now();
+
+		// The time difference converted into an hh:mm:ss timestamp.
+		const time = await msToTimer(timeDiff);
+
 		workEndEmbed.setColor(0xff7a90);
 		workEndEmbed.addFields({
 			"name": "<:no:785336733696262154> Slow down, workaholic!",
-			"value":
-				"You still have ??:??:?? left before you can work again. I appreciate the effort though!",
+			"value": `You still have ${ time } left before you can work again. I appreciate the effort though!`,
 		});
 
 		await interaction.editReply({
