@@ -22,7 +22,7 @@
       "name": "Jordan De La Torre"
     }
   ],
-  "packageManager": "yarn@3.2.1",
+  "packageManager": "yarn@3.3.0",
   "scripts": {
     "start": "cross-env NODE_ENV=production ts-node -r dotenv/config src/index.ts",
     "dev": "cross-env NODE_ENV=development ts-node -r dotenv/config src/index.ts"

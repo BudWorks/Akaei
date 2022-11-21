@@ -47,3 +47,20 @@ export async function addCooldown (
 	await user.save();
 	return user;
 }
+
+/**
+ * Removes a cooldown from the user's array of current cooldowns
+ * @param user The user whom the cooldown will be removed
+ * @param type The type of cooldown to remove
+ */
+export async function removeCooldown (
+	user: UserDocument,
+	type: string
+) {
+	let cooldownIndex = user.cooldowns.findIndex((value) => { return value.type == type })
+
+	user.cooldowns.splice(cooldownIndex, 1);
+
+	await user.save();
+	return user;
+}

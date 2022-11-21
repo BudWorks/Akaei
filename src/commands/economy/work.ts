@@ -13,7 +13,7 @@ import { Command } from "../../classes/Command";
 import { Job } from "../../classes/economy/Job";
 import { msToTimer } from "../../utils/formatDateTime";
 import { getBalance, updateBalance } from "../../utils/userBalance";
-import { addCooldown, getCooldown } from "../../utils/userCooldown";
+import { addCooldown, getCooldown, removeCooldown } from "../../utils/userCooldown";
 
 // Set to prevent user from using /work multiple times in a row
 const workingUser = new Set();
@@ -27,12 +27,16 @@ const data = new SlashCommandBuilder()
 const run = async (interaction: CommandInteraction) => {
 	await interaction.deferReply();
 
+	
 	// The User that sent the interaction.
 	const { channel, user } = interaction;
-
+	
+	
 	// The balance and cooldown data of the user.
 	const balanceData = await getBalance(user.id, user.username);
 	const cooldownData = await getCooldown(user.id, user.username);
+	
+	await removeCooldown(cooldownData, 'work')
 
 	// Embed sent at the end of the command process
 	const workEndEmbed = new EmbedBuilder();
