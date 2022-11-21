@@ -53,11 +53,10 @@ export async function addCooldown (
  * @param user The user whom the cooldown will be removed
  * @param type The type of cooldown to remove
  */
-export async function removeCooldown (
-	user: UserDocument,
-	type: string
-) {
-	let cooldownIndex = user.cooldowns.findIndex((value) => { return value.type == type })
+export async function removeCooldown (user: UserDocument, type: string) {
+	const cooldownIndex = user.cooldowns.findIndex((value) => {
+		return value.type === type;
+	});
 
 	user.cooldowns.splice(cooldownIndex, 1);
 
