@@ -47,7 +47,7 @@ const run = async (interaction: CommandInteraction) => {
 	// Check if the user has a work cooldown or not. If they do, the command will end here.
 	if (cooldownData.cooldowns.some((cooldown) => cooldown.type === "work")) {
 		// The difference in time between the end of the cooldown and the current date in ms.
-		const timeDiff = cooldownData.cooldowns[0].endTime - Date.now();
+		const timeDiff = cooldownData.cooldowns[0].endTime.getTime() - Date.now();
 
 		// The time difference converted into an hh:mm:ss timestamp.
 		const time = await msToTimer(timeDiff);
@@ -172,7 +172,7 @@ const run = async (interaction: CommandInteraction) => {
 		let jobTitle: string;
 		let jobPay: number;
 		let cooldown: number;
-		let endTime: number;
+		let endTime: Date;
 
 		// If the interaction was from the select menu
 		if (componentInteraction.componentType === ComponentType.SelectMenu) {

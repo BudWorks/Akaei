@@ -95,6 +95,7 @@ export class Job {
 	}
 
 	get endTime () {
-		return Date.now() + this.cooldownMs;
+		const date = new Date(Date.now());
+		return new Date(date.setTime(date.getTime() + this.cooldownMs));
 	}
 }

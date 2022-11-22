@@ -6,7 +6,7 @@ export interface CooldownInterface {
 	/** The type of cooldown. */
 	type: string;
 	/** The date in ms in which the cooldown will finish. */
-	endTime: number;
+	endTime: Date;
 	/** The Snowflake ID of the channel the initial interaction was used in, to send a notification. */
 	channelId: string;
 }
@@ -59,7 +59,7 @@ const userSchema = new Schema<UserInterface>({
 		/** The type of cooldown. */
 		"type": String,
 		/** The date in ms in which the cooldown will finish. */
-		"endTime": Number,
+		"endTime": Date,
 		/** The Snowflake ID of the channel the initial interaction was used in, to send a notification. */
 		"channelId": String,
 	}) ],

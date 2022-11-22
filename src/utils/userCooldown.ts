@@ -36,7 +36,7 @@ export async function getCooldown (id: string, username: string) {
 export async function addCooldown (
 	user: UserDocument,
 	type: string,
-	endTime: number,
+	endTime: Date,
 	channelId: string,
 ) {
 	user.cooldowns.push({
