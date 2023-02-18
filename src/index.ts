@@ -4,7 +4,7 @@ import { onInteraction } from "./events/onInteraction";
 import { onReady } from "./events/onReady";
 
 // Create a new Client instance
-const client = new Client({ "intents": [ GatewayIntentBits.Guilds ] });
+export const client = new Client({ "intents": [ GatewayIntentBits.Guilds ] });
 
 // Client is ready
 client.once("ready", async () => await onReady());
