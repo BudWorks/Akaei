@@ -38,14 +38,14 @@ const run = async (interaction: CommandInteraction) => {
 	const balanceData = await getBalance(user.id, user.username);
 	const cooldownData = await getCooldown(user.id, user.username);
 
-	await removeCooldown(cooldownData, "work");
-
 	// Embed sent at the end of the command process
 	const workEndEmbed = new EmbedBuilder();
 	workEndEmbed.setColor(0xffc27e);
 
 	// Check if the user has a work cooldown or not. If they do, the command will end here.
-	if (cooldownData.cooldowns.some((cooldown) => cooldown.type === "work")) {
+	if (
+		cooldownData.cooldowns.some((cooldown) => cooldown.type === "work" && cooldown.endTime >= new Date())
+	) {
 		// The difference in time between the end of the cooldown and the current date in ms.
 		const timeDiff = cooldownData.cooldowns[0].endTime.getTime() - Date.now();
 
@@ -62,6 +62,13 @@ const run = async (interaction: CommandInteraction) => {
 			"embeds": [ workEndEmbed ],
 		});
 		return;
+	}
+	else {
+		/*
+		 * In case the command is used before the cooldown check runs but after the cooldown has ended,
+		 * it will be manually removed here instead with no notification.
+		 */
+		await removeCooldown(cooldownData, "work");
 	}
 
 	// Check if the user is already in the workingUser set or not. If they are, the command will end here.
