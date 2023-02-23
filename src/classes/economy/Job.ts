@@ -3,7 +3,7 @@
  */
 export class Job {
 	/** All of the jobs and related descriptions for the /work command. */
-	private static _jobArray = [
+	protected static _jobArray = [
 		[ "Discord Server", "What more could you ask for than being the server's resident %position%?" ],
 		[ "BudWorks", "We at BudWorks would love for you to join us as our personal %position%. We do not offer benefits." ],
 		[ "Video Game", "Videos game? %position%? Sounds like the perfect combo! Breaks are not allowed." ],
@@ -18,7 +18,7 @@ export class Job {
 		[ "Self-taught", "What better way to enter the %position% industry than doing it entirely on your own!" ],
 	];
 	/** All of the positions for the /work command. */
-	private static _posArray = [
+	protected static _posArray = [
 		"Moderator",
 		"Investor",
 		"Spy",
@@ -98,4 +98,46 @@ export class Job {
 		const date = new Date(Date.now());
 		return new Date(date.setTime(date.getTime() + this.cooldownMs));
 	}
+}
+
+/**
+ * Randomly generated crime titles with descriptions.
+ */
+export class Crime extends Job {
+	/**
+	 * All of the crimes and related descriptions for the /crime command.
+	 * Descriptons are clearly not final
+	 */
+	protected static _jobArray = [
+		[ "Discord Server", "What more could you ask for than being the server's resident %position%?" ],
+		[ "BudWorks", "We at BudWorks would love for you to join us as our personal %position%. We do not offer benefits." ],
+		[ "Bank", "Videos game? %position%? Sounds like the perfect combo! Breaks are not allowed." ],
+		[ "Door to Door", "Sometimes the best way to offer %position% services is by knocking on doors and not leaving people alone until they pay." ],
+		[ "Movie", "Every good movie needs a good %position%, otherwise what's the point of watching the movie at all?" ],
+		[ "Fast Food", "Being the %position% for a fast food place is hard work, and doesn't pay well at all! You'll probably take it anyways though." ],
+		[ "Piggly Wiggly", "If you want a well-paid %position% position at Piggly Wiggly, don't hold your breath! It may not have amazing rates but rest assured, this place is to die for!" ],
+		[ "Real Estate", "Real estate may sound boring, but it is! Being a useful %position% might make it better though." ],
+		[ "Clowny the", "You can take the %position% role under one condition: You will always be referred to as Clowny." ],
+		[ "Mall", "Who cares if malls are all but dead these days? That just means they're always on the lookout for more %position% workers!" ],
+		[ "FBI", "We can't talk about this job publicly." ],
+		[ "Dark Web", "PLACEHOLDER" ],
+		[ "Prison", "PLACEHOLDER" ],
+		[ "Self-taught", "What better way to enter the %position% industry than doing it entirely on your own!" ],
+	];
+	/** All of the positions for the /crime command. */
+	protected static _posArray = [
+		"Thief",
+		"Assassin",
+		"Murderer",
+		"Drug Dealer",
+		"Kidnapper",
+		"Clown",
+		"Tax Evader",
+		"Burglar",
+		"Money Launderer",
+		"Identity Thief",
+		"Stalker",
+		"Vandal",
+		"Fraud",
+	];
 }
