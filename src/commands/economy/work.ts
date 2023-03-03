@@ -63,7 +63,9 @@ const run = async (interaction: CommandInteraction) => {
 		});
 		return;
 	}
-	else {
+	else if (
+		cooldownData.cooldowns.some((cooldown) => cooldown.type === "work" && cooldown.endTime < new Date())
+	) {
 		/*
 		 * In case the command is used before the cooldown check runs but after the cooldown has ended,
 		 * it will be manually removed here instead with no notification.
@@ -229,8 +231,8 @@ const run = async (interaction: CommandInteraction) => {
 			}
 
 			// Update the user's cash and create a cooldown linked to them for this command
-			updateBalance(balanceData, jobPay);
-			addCooldown(cooldownData, "work", endTime, channel?.id ?? user.id);
+			await updateBalance(balanceData, jobPay);
+			await addCooldown(cooldownData, "work", endTime, channel?.id ?? user.id);
 
 			// Update embed to the job completion response
 			workEndEmbed.setThumbnail("https://cdn.discordapp.com/emojis/684043360624705606");
