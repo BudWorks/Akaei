@@ -37,17 +37,16 @@ const run = async (interaction: CommandInteraction) => {
 	// The balance and cooldown data of the user.
 	const balanceData = await getBalance(user.id, user.username);
 	const cooldownData = await getCooldown(user.id, user.username);
+	const workCooldown = cooldownData.cooldowns.find((cooldown) => cooldown.type === "work");
 
 	// Embed sent at the end of the command process
 	const workEndEmbed = new EmbedBuilder();
 	workEndEmbed.setColor(0xffc27e);
 
 	// Check if the user has a work cooldown or not. If they do, the command will end here.
-	if (
-		cooldownData.cooldowns.some((cooldown) => cooldown.type === "work" && cooldown.endTime >= new Date())
-	) {
+	if (workCooldown && workCooldown.endTime >= new Date()) {
 		// The difference in time between the end of the cooldown and the current date in ms.
-		const timeDiff = cooldownData.cooldowns[0].endTime.getTime() - Date.now();
+		const timeDiff = workCooldown.endTime.getTime() - Date.now();
 
 		// The time difference converted into an hh:mm:ss timestamp.
 		const time = await msToTimer(timeDiff);
@@ -63,9 +62,7 @@ const run = async (interaction: CommandInteraction) => {
 		});
 		return;
 	}
-	else if (
-		cooldownData.cooldowns.some((cooldown) => cooldown.type === "work" && cooldown.endTime < new Date())
-	) {
+	else if (workCooldown && workCooldown.endTime < new Date()) {
 		/*
 		 * In case the command is used before the cooldown check runs but after the cooldown has ended,
 		 * it will be manually removed here instead with no notification.
