@@ -35,13 +35,13 @@ export class Job {
 	];
 
 	/** The randomly selected job and description. */
-	private _jobInfo: string[];
+	protected _jobInfo: string[];
 	/** The isolated randomly selected job. */
-	private _job: string;
+	protected _job: string;
 	/** The randomly selected position. */
-	private _position: string;
+	protected _position: string;
 	/** The isolated randomly selected job description. */
-	private _jobDesc: string;
+	protected _jobDesc: string;
 	/** The minimum base pay for a job. */
 	private _minPay: number;
 	/** The maximum base pay for a job. */
@@ -109,20 +109,20 @@ export class Crime extends Job {
 	 * Descriptons are clearly not final
 	 */
 	protected static _jobArray = [
-		[ "Discord Server", "What more could you ask for than being the server's resident %position%?" ],
-		[ "BudWorks", "We at BudWorks would love for you to join us as our personal %position%. We do not offer benefits." ],
-		[ "Bank", "Videos game? %position%? Sounds like the perfect combo! Breaks are not allowed." ],
-		[ "Door to Door", "Sometimes the best way to offer %position% services is by knocking on doors and not leaving people alone until they pay." ],
-		[ "Movie", "Every good movie needs a good %position%, otherwise what's the point of watching the movie at all?" ],
-		[ "Fast Food", "Being the %position% for a fast food place is hard work, and doesn't pay well at all! You'll probably take it anyways though." ],
-		[ "Piggly Wiggly", "If you want a well-paid %position% position at Piggly Wiggly, don't hold your breath! It may not have amazing rates but rest assured, this place is to die for!" ],
-		[ "Real Estate", "Real estate may sound boring, but it is! Being a useful %position% might make it better though." ],
-		[ "Clowny the", "You can take the %position% role under one condition: You will always be referred to as Clowny." ],
-		[ "Mall", "Who cares if malls are all but dead these days? That just means they're always on the lookout for more %position% workers!" ],
-		[ "FBI", "We can't talk about this job publicly." ],
-		[ "Dark Web", "PLACEHOLDER" ],
-		[ "Prison", "PLACEHOLDER" ],
-		[ "Self-taught", "What better way to enter the %position% industry than doing it entirely on your own!" ],
+		[ "Discord Server", "Some might say being a complete %position% on Discord is against the ToS. I say, who cares?" ],
+		[ "BudWorks", "%position% crimes at BudWorks are at an all-time low. Why don't you give it a shot?" ],
+		[ "Bank", "All sorts of crimes can be committed at banks, but are you willing to be the %position% at one?" ],
+		[ "Door to Door", "Sometimes the best way to commit %position% crimes is by knocking on doors and forcing your way in." ],
+		[ "Movie", "This isn't a movie role. You will be a real life %position% at the local movie theater." ],
+		[ "Fast Food", "The local fast food place is doing too well right now. Go there now and commit some %position% crimes. It's for the good of humanity." ],
+		[ "Piggly Wiggly", "They were just asking for it with that name." ],
+		[ "Real Estate", "I know it may be weird committing %position% crimes in the real estate industry, but you'll thank me later when the recession is over!" ],
+		[ "Clowny the", "Roleplaying as a clown while committing %position% crimes is considered a tired trope. I like to think of it as a classic form of art." ],
+		[ "Mall", "With how abandoned malls are, getting away with being the local %position% is child's play!" ],
+		[ "CIA", "We can't talk about this job publicly." ],
+		[ "Dark Web", "The age of the internet makes it a breeze to be the ultimate %position%! Just watch where you click." ],
+		[ "Prison", "Every prison needs a good %position%. As a bonus, getting arrested makes no difference!" ],
+		[ "Self-taught", "Sometimes %position% crimes are best left to the ones who learn it themselves." ],
 	];
 	/** All of the positions for the /crime command. */
 	protected static _posArray = [
@@ -138,6 +138,17 @@ export class Crime extends Job {
 		"Identity Thief",
 		"Stalker",
 		"Vandal",
-		"Fraud",
+		"Scammer",
+		"Impostor",
 	];
+
+	constructor (minPay: number, maxPay: number, cooldown: number) {
+		super(minPay, maxPay, cooldown);
+		this._jobInfo =
+			Crime._jobArray[Math.floor(Math.random() * Crime._jobArray.length)];
+		this._job = this._jobInfo[0];
+		this._position =
+			Crime._posArray[Math.floor(Math.random() * Crime._posArray.length)];
+		this._jobDesc = this._jobInfo[1].replace("%position%", this._position);
+	}
 }
