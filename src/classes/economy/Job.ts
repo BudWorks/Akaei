@@ -104,10 +104,7 @@ export class Job {
  * Randomly generated crime titles with descriptions.
  */
 export class Crime extends Job {
-	/**
-	 * All of the crimes and related descriptions for the /crime command.
-	 * Descriptons are clearly not final
-	 */
+	/** All of the crimes and related descriptions for the /crime command. */
 	protected static _jobArray = [
 		[ "Discord Server", "Some might say being a complete %position% on Discord is against the ToS. I say, who cares?" ],
 		[ "BudWorks", "%position% crimes at BudWorks are at an all-time low. Why don't you give it a shot?" ],

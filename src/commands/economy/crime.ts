@@ -232,7 +232,7 @@ const run = async (interaction: CommandInteraction) => {
 			await addCooldown(cooldownData, "crime", endTime, channel?.id ?? user.id);
 
 			// Update embed to the crime completion response
-			// This will change whether you suceeded or not
+			// This will change whether you've succeeded or not
 			crimeEndEmbed.setThumbnail("https://cdn.discordapp.com/emojis/684043360624705606");
 			crimeEndEmbed.addFields({
 				"name": "<:raycoin:684043360624705606> Crime completed!",
