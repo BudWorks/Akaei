@@ -179,6 +179,7 @@ const run = async (interaction: CommandInteraction) => {
 		let crimePay: number;
 		let cooldown: number;
 		let endTime: Date;
+		let outcomeNum: number;
 
 		// If the interaction was from the select menu
 		if (componentInteraction.componentType === ComponentType.SelectMenu) {
@@ -189,6 +190,7 @@ const run = async (interaction: CommandInteraction) => {
 				crimePay = crimeOne.pay;
 				cooldown = crimeOne.cooldown;
 				endTime = crimeOne.endTime;
+				outcomeNum = crimeOne.outcomeNum;
 				break;
 
 			case "jobTwo":
@@ -196,6 +198,7 @@ const run = async (interaction: CommandInteraction) => {
 				crimePay = crimeTwo.pay;
 				cooldown = crimeTwo.cooldown;
 				endTime = crimeTwo.endTime;
+				outcomeNum = crimeTwo.outcomeNum;
 				break;
 
 			case "jobThree":
@@ -203,6 +206,7 @@ const run = async (interaction: CommandInteraction) => {
 				crimePay = crimeThree.pay;
 				cooldown = crimeThree.cooldown;
 				endTime = crimeThree.endTime;
+				outcomeNum = crimeThree.outcomeNum;
 				break;
 
 			default:
@@ -227,17 +231,34 @@ const run = async (interaction: CommandInteraction) => {
 				return;
 			}
 
-			// Update the user's cash and create a cooldown linked to them for this command
-			await updateBalance(balanceData, crimePay);
-			await addCooldown(cooldownData, "crime", endTime, channel?.id ?? user.id);
+			// The crime was successful
+			if (outcomeNum >= 0.5) {
+				// Update the user's cash by giving them some money
+				await updateBalance(balanceData, crimePay);
 
-			// Update embed to the crime completion response
-			// This will change whether you've succeeded or not
-			crimeEndEmbed.setThumbnail("https://cdn.discordapp.com/emojis/684043360624705606");
-			crimeEndEmbed.addFields({
-				"name": "<:raycoin:684043360624705606> Crime completed!",
-				"value": `You've earned <:raycoin:684043360624705606>${ crimePay } from committing a ${ crimeTitle } crime!\nYou can commit another in ${ cooldown } hours.`,
-			});
+				// Update embed to the crime completion response
+				crimeEndEmbed.setThumbnail("https://cdn.discordapp.com/emojis/684043360624705606");
+				crimeEndEmbed.addFields({
+					"name": "<:raycoin:684043360624705606> Crime completed!",
+					"value": `You've earned <:raycoin:684043360624705606>${ crimePay } from committing a ${ crimeTitle } crime!\nYou can commit another in ${ cooldown } hours.`,
+				});
+			}
+			// The crime was an utter failure
+			else if (outcomeNum < 0.5) {
+				// Update the user's cash by removing some money
+				await updateBalance(balanceData, crimePay * -1);
+
+				// Update embed to the crime completion response
+				crimeEndEmbed.setColor(0xff7a90);
+				crimeEndEmbed.setThumbnail("https://cdn.discordapp.com/emojis/684043360624705606");
+				crimeEndEmbed.addFields({
+					"name": "<:raycoin:684043360624705606> Crime unsuccessful!",
+					"value": `You've lost <:raycoin:684043360624705606>${ crimePay } from your failed attempt at a ${ crimeTitle } crime!\nYou can try again in ${ cooldown } hours.`,
+				});
+			}
+
+			// Create a cooldown linked to the user for this command
+			await addCooldown(cooldownData, "crime", endTime, channel?.id ?? user.id);
 
 			crimeUser.delete(user.id);
 

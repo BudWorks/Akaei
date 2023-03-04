@@ -148,4 +148,9 @@ export class Crime extends Job {
 			Crime._posArray[Math.floor(Math.random() * Crime._posArray.length)];
 		this._jobDesc = this._jobInfo[1].replace("%position%", this._position);
 	}
+
+	/** The number that determines whether the crime is successful or not. */
+	get outcomeNum () {
+		return Math.random();
+	}
 }
