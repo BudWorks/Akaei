@@ -50,6 +50,14 @@ export async function cooldownCheck () {
 				});
 				break;
 
+			case "crime":
+				cooldownNotifEmbed.setThumbnail("https://cdn.discordapp.com/emojis/684043360624705606");
+				cooldownNotifEmbed.addFields({
+					"name": "Care for another crime?",
+					"value": "You're able to commit another crime now!",
+				});
+				break;
+
 				// In the case that there isn't a valid type, send a generic notification.
 			default:
 				cooldownNotifEmbed.setColor(0x80dbb5);
