@@ -29,7 +29,7 @@ export interface UserInterface {
 		card: number;
 	};
 	/** The cooldowns that a user is currently undergoing. */
-	cooldowns: [CooldownInterface];
+	cooldowns: Array<CooldownInterface>;
 }
 
 /**
