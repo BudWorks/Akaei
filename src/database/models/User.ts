@@ -1,4 +1,15 @@
 import { Document, model, Schema } from "mongoose";
+/**
+ * The interface for the user's cooldowns.
+ */
+export interface CooldownInterface {
+	/** The type of cooldown. */
+	type: string;
+	/** The date in ms in which the cooldown will finish. */
+	endTime: Date;
+	/** The Snowflake ID of the channel the initial interaction was used in, to send a notification. */
+	channelId: string;
+}
 
 /**
  * The interface representing the User document.
@@ -17,6 +28,8 @@ export interface UserInterface {
 		/** The amount of money a user has deposited into their card. */
 		card: number;
 	};
+	/** The cooldowns that a user is currently undergoing. */
+	cooldowns: Array<CooldownInterface>;
 }
 
 /**
@@ -41,6 +54,15 @@ const userSchema = new Schema<UserInterface>({
 		/** The amount of money a user has deposited into their card. */
 		"card": Number,
 	},
+	/** The cooldowns that a user is currently undergoing. */
+	"cooldowns": [ new Schema<CooldownInterface>({
+		/** The type of cooldown. */
+		"type": String,
+		/** The date in ms in which the cooldown will finish. */
+		"endTime": Date,
+		/** The Snowflake ID of the channel the initial interaction was used in, to send a notification. */
+		"channelId": String,
+	}) ],
 });
 
 /**

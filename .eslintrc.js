@@ -86,7 +86,7 @@ module.exports = {
 		"template-tag-spacing": [ "warn" ],
 		"unicode-bom": [ "error" ],
 		"wrap-regex": [ "warn" ],
-		"arrow-body-style": [ "warn" ],
+		"arrow-body-style": [ "off" ],
 		"arrow-parens": [ "warn" ],
 		"arrow-spacing": [ "warn" ],
 		"generator-star-spacing": [ "warn" ],
