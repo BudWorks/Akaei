@@ -10,7 +10,7 @@ import {
 	SlashCommandBuilder,
 } from "discord.js";
 import { Command } from "../../classes/Command";
-import { Crime } from "../../classes/economy/Job";
+import { CrimeBuilder } from "../../classes/economy/Job";
 import { msToTimer } from "../../utils/formatDateTime";
 import { getBalance, updateBalance } from "../../utils/userBalance";
 import {
@@ -85,10 +85,10 @@ const run = async (interaction: CommandInteraction) => {
 		return;
 	}
 
-	// Creates three randomly generated crime titles
-	const crimeOne = new Crime(500, 700, 2);
-	const crimeTwo = new Crime(1000, 1200, 5);
-	const crimeThree = new Crime(1500, 1700, 8);
+	// Creates three randomly generated crimes
+	const crimeOne = CrimeBuilder.getCrime(500, 700, 2);
+	const crimeTwo = CrimeBuilder.getCrime(1000, 1200, 5);
+	const crimeThree = CrimeBuilder.getCrime(1500, 1700, 8);
 
 	// Embed displaying the crime choices
 	const crimeStartEmbed = new EmbedBuilder();

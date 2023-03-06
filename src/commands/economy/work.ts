@@ -10,7 +10,7 @@ import {
 	SlashCommandBuilder,
 } from "discord.js";
 import { Command } from "../../classes/Command";
-import { Job } from "../../classes/economy/Job";
+import { WorkBuilder } from "../../classes/economy/Job";
 import { msToTimer } from "../../utils/formatDateTime";
 import { getBalance, updateBalance } from "../../utils/userBalance";
 import {
@@ -85,10 +85,10 @@ const run = async (interaction: CommandInteraction) => {
 		return;
 	}
 
-	// Creates three randomly generated job titles
-	const jobOne = new Job(500, 700, 2);
-	const jobTwo = new Job(1000, 1200, 5);
-	const jobThree = new Job(1500, 1700, 8);
+	// Creates three randomly generated jobs
+	const jobOne = WorkBuilder.getWork(500, 700, 2);
+	const jobTwo = WorkBuilder.getWork(1000, 1200, 5);
+	const jobThree = WorkBuilder.getWork(1500, 1700, 8);
 
 	// Embed displaying the job choices
 	const workStartEmbed = new EmbedBuilder();
