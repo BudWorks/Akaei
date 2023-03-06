@@ -12,6 +12,8 @@ export class Job {
 	private _minPay: number;
 	/** The maximum base pay for a job. */
 	private _maxPay: number;
+	/** The job's pay, selected randomly from the specified range. */
+	private _pay: number;
 	/** The cooldown time before another job can be worked. */
 	private _cooldown: number;
 	/** The number that determines whether the command is successful or not. */
@@ -31,6 +33,9 @@ export class Job {
 		this._jobDesc = jobDesc;
 		this._minPay = minPay;
 		this._maxPay = maxPay;
+		this._pay =
+			Math.floor(Math.random() * (this._maxPay - this._minPay + 1)) +
+			this._minPay;
 		this._cooldown = cooldown;
 		this._outcomeNum = outcomeNum;
 	}
@@ -50,12 +55,9 @@ export class Job {
 		return this._minPay;
 	}
 
-	/** The job's pay, selected randomly from the specified range. */
+	/** The set pay for the job. */
 	get pay () {
-		return (
-			Math.floor(Math.random() * (this._maxPay - this._minPay + 1)) +
-			this._minPay
-		);
+		return this._pay;
 	}
 
 	/** The job's cooldown time. */
