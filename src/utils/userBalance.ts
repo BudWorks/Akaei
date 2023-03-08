@@ -41,11 +41,37 @@ export async function getBalance (id: string, username: string) {
  * Updates the user's current cash amount. Positive amounts add, negative amounts subtract.
  * @param user The user who's balance will be updated.
  * @param amount The amount of cash that will be added or subtracted from the user's balance.
+ * @param payMethod The field that will be updated in the user's balance; cash, bank, or card.
  * @returns Returns an object of the user's balance data.
  */
-export async function updateBalance (user: UserDocument, amount: number) {
-	const cash = user.balance.cash;
-	user.balance.cash = cash + amount;
+export async function updateBalance (
+	user: UserDocument,
+	amount: number,
+	payMethod: string,
+) {
+	let balance: number;
+
+	// Checks whether to update the cash, bank, or card field of the document.
+	switch (payMethod) {
+	case "cash":
+		balance = user.balance.cash;
+		user.balance.cash = balance + amount;
+		break;
+
+	case "bank":
+		balance = user.balance.bank;
+		user.balance.bank = balance + amount;
+		break;
+
+	case "card":
+		balance = user.balance.card;
+		user.balance.card = balance + amount;
+		break;
+
+	default:
+		balance = user.balance.cash;
+		user.balance.cash = balance + amount;
+	}
 	await user.save();
 	return user;
 }

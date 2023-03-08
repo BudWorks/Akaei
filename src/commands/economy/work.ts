@@ -228,7 +228,7 @@ const run = async (interaction: CommandInteraction) => {
 			}
 
 			// Update the user's cash and create a cooldown linked to them for this command
-			await updateBalance(balanceData, jobPay);
+			await updateBalance(balanceData, jobPay, "cash");
 			await addCooldown(cooldownData, "work", endTime, channel?.id ?? user.id);
 
 			// Update embed to the job completion response

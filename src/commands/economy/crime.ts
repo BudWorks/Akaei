@@ -234,7 +234,7 @@ const run = async (interaction: CommandInteraction) => {
 			// The crime was successful
 			if (outcomeNum >= 0.5) {
 				// Update the user's cash by giving them some money
-				await updateBalance(balanceData, crimePay);
+				await updateBalance(balanceData, crimePay, "cash");
 
 				// Update embed to the crime completion response
 				crimeEndEmbed.setThumbnail("https://cdn.discordapp.com/emojis/684043360624705606");
@@ -246,7 +246,7 @@ const run = async (interaction: CommandInteraction) => {
 			// The crime was an utter failure
 			else if (outcomeNum < 0.5) {
 				// Update the user's cash by removing some money
-				await updateBalance(balanceData, crimePay * -1);
+				await updateBalance(balanceData, crimePay * -1, "cash");
 
 				// Update embed to the crime completion response
 				crimeEndEmbed.setColor(0xff7a90);
