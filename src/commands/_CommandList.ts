@@ -1,6 +1,7 @@
 import { CommandList } from "../classes/CommandList";
 import { balance } from "./economy/balance";
 import { crime } from "./economy/crime";
+import { deposit } from "./economy/deposit";
 import { work } from "./economy/work";
 
 /**
@@ -9,5 +10,6 @@ import { work } from "./economy/work";
 export const commandList = new CommandList({
 	"balance": balance,
 	"crime": crime,
+	"deposit": deposit,
 	"work": work,
 });
