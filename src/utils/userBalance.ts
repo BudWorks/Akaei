@@ -24,7 +24,7 @@ export async function getBalance (id: string, username: string) {
 		});
 		return user;
 	}
-	else if (!user.balance.cash) {
+	else if (user.get("balance.cash") === undefined) {
 		// Adds balance data to the User if none can be found
 		user.username = username;
 		user.balance = { "cash": 0, "bank": 0, "card": 0 };
