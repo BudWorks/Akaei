@@ -19,6 +19,7 @@ export async function getExperience (id: string, username: string) {
 			"experience": {
 				"points": 0,
 				"level": 1,
+				"nextLevelPoints": 100,
 			},
 		});
 		return user;
@@ -26,7 +27,7 @@ export async function getExperience (id: string, username: string) {
 	else if (user.get("experience.points") === undefined) {
 		// Adds experience data to the User if none can be found
 		user.username = username;
-		user.experience = { "points": 0, "level": 1 };
+		user.experience = { "points": 0, "level": 1, "nextLevelPoints": 100 };
 		await user.save();
 		return user;
 	}

@@ -34,6 +34,8 @@ export interface UserInterface {
 		points: number;
 		/** The level a user is currently at. */
 		level: number;
+		/** The points required to level up. */
+		nextLevelPoints: number;
 	};
 	/** The cooldowns that a user is currently undergoing. */
 	cooldowns: Array<CooldownInterface>;
@@ -67,6 +69,8 @@ const userSchema = new Schema<UserInterface>({
 		"points": Number,
 		/** The level a user is currently at. */
 		"level": Number,
+		/** The points required to level up. */
+		"nextLevelPoints": Number,
 	},
 	/** The cooldowns that a user is currently undergoing. */
 	"cooldowns": [ new Schema<CooldownInterface>({
