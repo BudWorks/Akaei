@@ -28,6 +28,13 @@ export interface UserInterface {
 		/** The amount of money a user has deposited into their card. */
 		card: number;
 	};
+	/** Data associated with the experience points of a user. */
+	experience: {
+		/** The number of points a user has. */
+		points: number;
+		/** The level a user is currently at. */
+		level: number;
+	};
 	/** The cooldowns that a user is currently undergoing. */
 	cooldowns: Array<CooldownInterface>;
 }
@@ -53,6 +60,13 @@ const userSchema = new Schema<UserInterface>({
 		"bank": Number,
 		/** The amount of money a user has deposited into their card. */
 		"card": Number,
+	},
+	/** Data associated with the experience points of a user. */
+	"experience": {
+		/** The number of points a user has. */
+		"points": Number,
+		/** The level a user is currently at. */
+		"level": Number,
 	},
 	/** The cooldowns that a user is currently undergoing. */
 	"cooldowns": [ new Schema<CooldownInterface>({
