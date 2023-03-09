@@ -5,6 +5,7 @@ import { deposit } from "./economy/deposit";
 import { give } from "./economy/give";
 import { withdraw } from "./economy/withdraw";
 import { work } from "./economy/work";
+import { level } from "./experience/level";
 
 /**
  * The list of commands to be registered when the Client starts.
@@ -16,4 +17,5 @@ export const commandList = new CommandList({
 	"give": give,
 	"withdraw": withdraw,
 	"work": work,
+	"level": level,
 });
