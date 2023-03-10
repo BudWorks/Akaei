@@ -18,6 +18,7 @@ import {
 	getCooldown,
 	removeCooldown,
 } from "../../utils/userCooldown";
+import { getExperience, updateExperience } from "../../utils/userExperience";
 
 // Set to prevent user from using /work multiple times in a row
 const workingUser = new Set();
@@ -36,6 +37,7 @@ const run = async (interaction: CommandInteraction) => {
 
 	// The balance and cooldown data of the user.
 	const balanceData = await getBalance(user.id, user.username);
+	const experienceData = await getExperience(user.id, user.username);
 	const cooldownData = await getCooldown(user.id, user.username);
 	const workCooldown = cooldownData.cooldowns.find((cooldown) => cooldown.type === "work");
 
@@ -89,6 +91,7 @@ const run = async (interaction: CommandInteraction) => {
 	const jobOne = WorkBuilder.getWork(500, 700, 2);
 	const jobTwo = WorkBuilder.getWork(1000, 1200, 5);
 	const jobThree = WorkBuilder.getWork(1500, 1700, 8);
+	const pointReward = Math.floor(Math.random() * (200 - 100 + 1)) + 100;
 
 	// Embed displaying the job choices
 	const workStartEmbed = new EmbedBuilder();
@@ -229,13 +232,14 @@ const run = async (interaction: CommandInteraction) => {
 
 			// Update the user's cash and create a cooldown linked to them for this command
 			await updateBalance(balanceData, jobPay, "cash");
+			await updateExperience(experienceData, pointReward);
 			await addCooldown(cooldownData, "work", endTime, channel?.id ?? user.id);
 
 			// Update embed to the job completion response
 			workEndEmbed.setThumbnail("https://cdn.discordapp.com/emojis/684043360624705606");
 			workEndEmbed.addFields({
 				"name": "<:raycoin:684043360624705606> Work completed!",
-				"value": `You've earned <:raycoin:684043360624705606>${ jobPay } from working as a ${ jobTitle }!\nYou can work again in ${ cooldown } hours.`,
+				"value": `You've earned <:raycoin:684043360624705606>${ jobPay } and <:xpbulb:575143722086432782>${ pointReward } from working as a ${ jobTitle }! You can work again in ${ cooldown } hours.`,
 			});
 
 			workingUser.delete(user.id);

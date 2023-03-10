@@ -18,6 +18,7 @@ import {
 	getCooldown,
 	removeCooldown,
 } from "../../utils/userCooldown";
+import { getExperience, updateExperience } from "../../utils/userExperience";
 
 // Set to prevent user from using /crime multiple times in a row
 const crimeUser = new Set();
@@ -36,6 +37,7 @@ const run = async (interaction: CommandInteraction) => {
 
 	// The balance and cooldown data of the user.
 	const balanceData = await getBalance(user.id, user.username);
+	const experienceData = await getExperience(user.id, user.username);
 	const cooldownData = await getCooldown(user.id, user.username);
 	const crimeCooldown = cooldownData.cooldowns.find((cooldown) => cooldown.type === "crime");
 
@@ -89,6 +91,7 @@ const run = async (interaction: CommandInteraction) => {
 	const crimeOne = CrimeBuilder.getCrime(500, 700, 2);
 	const crimeTwo = CrimeBuilder.getCrime(1000, 1200, 5);
 	const crimeThree = CrimeBuilder.getCrime(1500, 1700, 8);
+	const pointReward = Math.floor(Math.random() * (200 - 100 + 1)) + 100;
 
 	// Embed displaying the crime choices
 	const crimeStartEmbed = new EmbedBuilder();
@@ -235,25 +238,27 @@ const run = async (interaction: CommandInteraction) => {
 			if (outcomeNum >= 0.5) {
 				// Update the user's cash by giving them some money
 				await updateBalance(balanceData, crimePay, "cash");
+				await updateExperience(experienceData, pointReward);
 
 				// Update embed to the crime completion response
 				crimeEndEmbed.setThumbnail("https://cdn.discordapp.com/emojis/684043360624705606");
 				crimeEndEmbed.addFields({
 					"name": "<:raycoin:684043360624705606> Crime completed!",
-					"value": `You've earned <:raycoin:684043360624705606>${ crimePay } from committing a ${ crimeTitle } crime!\nYou can commit another in ${ cooldown } hours.`,
+					"value": `You've earned <:raycoin:684043360624705606>${ crimePay } and <:xpbulb:575143722086432782>${ pointReward } from committing a ${ crimeTitle } crime!\nYou can commit another in ${ cooldown } hours.`,
 				});
 			}
 			// The crime was an utter failure
 			else if (outcomeNum < 0.5) {
 				// Update the user's cash by removing some money
 				await updateBalance(balanceData, crimePay * -1, "cash");
+				await updateExperience(experienceData, pointReward * -1);
 
 				// Update embed to the crime completion response
 				crimeEndEmbed.setColor(0xff7a90);
 				crimeEndEmbed.setThumbnail("https://cdn.discordapp.com/emojis/684043360624705606");
 				crimeEndEmbed.addFields({
 					"name": "<:raycoin:684043360624705606> Crime unsuccessful!",
-					"value": `You've lost <:raycoin:684043360624705606>${ crimePay } from your failed attempt at a ${ crimeTitle } crime!\nYou can try again in ${ cooldown } hours.`,
+					"value": `You've lost <:raycoin:684043360624705606>${ crimePay } and <:xpbulb:575143722086432782>${ pointReward } from your failed attempt at a ${ crimeTitle } crime!\nYou can try again in ${ cooldown } hours.`,
 				});
 			}
 
