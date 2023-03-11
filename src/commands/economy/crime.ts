@@ -257,7 +257,7 @@ const run = async (interaction: CommandInteraction) => {
 				crimeEndEmbed.setThumbnail("https://cdn.discordapp.com/emojis/684043360624705606");
 				crimeEndEmbed.addFields({
 					"name": "<:raycoin:684043360624705606> Crime completed!",
-					"value": `You've earned <:raycoin:684043360624705606>${ crimePay } and <:xpbulb:575143722086432782>${ pointReward } from committing a ${ crimeTitle } crime!\nYou can commit another in ${ cooldown } hours.`,
+					"value": `You've earned <:raycoin:684043360624705606>${ crimePay } and <:xpbulb:575143722086432782>${ pointReward } from committing a ${ crimeTitle } crime! You can commit another in ${ cooldown } hours.`,
 				});
 			}
 			// The crime was an utter failure
@@ -273,7 +273,7 @@ const run = async (interaction: CommandInteraction) => {
 				crimeEndEmbed.setThumbnail("https://cdn.discordapp.com/emojis/684043360624705606");
 				crimeEndEmbed.addFields({
 					"name": "<:raycoin:684043360624705606> Crime unsuccessful!",
-					"value": `You've lost <:raycoin:684043360624705606>${ crimePay } and <:xpbulb:575143722086432782>${ pointReward } from your failed attempt at a ${ crimeTitle } crime!\nYou can try again in ${ cooldown } hours.`,
+					"value": `You've lost <:raycoin:684043360624705606>${ crimePay } and <:xpbulb:575143722086432782>${ pointReward } from your failed attempt at a ${ crimeTitle } crime! You can try again in ${ cooldown } hours.`,
 				});
 			}
 
