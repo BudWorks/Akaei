@@ -91,6 +91,7 @@ const run = async (interaction: CommandInteraction) => {
 	const crimeOne = CrimeBuilder.getCrime(500, 700, 2);
 	const crimeTwo = CrimeBuilder.getCrime(1000, 1200, 5);
 	const crimeThree = CrimeBuilder.getCrime(1500, 1700, 8);
+	const bonusPay = Math.floor(100 * Math.log10(experienceData.experience.level + 1));
 	const pointReward = Math.floor(Math.random() * (200 - 100 + 1)) + 100;
 
 	// Embed displaying the crime choices
@@ -190,7 +191,7 @@ const run = async (interaction: CommandInteraction) => {
 			switch (componentInteraction.values[0]) {
 			case "jobOne":
 				crimeTitle = crimeOne.title;
-				crimePay = crimeOne.pay;
+				crimePay = crimeOne.pay + bonusPay;
 				cooldown = crimeOne.cooldown;
 				endTime = crimeOne.endTime;
 				outcomeNum = crimeOne.outcomeNum;
@@ -198,7 +199,7 @@ const run = async (interaction: CommandInteraction) => {
 
 			case "jobTwo":
 				crimeTitle = crimeTwo.title;
-				crimePay = crimeTwo.pay;
+				crimePay = crimeTwo.pay + bonusPay;
 				cooldown = crimeTwo.cooldown;
 				endTime = crimeTwo.endTime;
 				outcomeNum = crimeTwo.outcomeNum;
@@ -206,7 +207,7 @@ const run = async (interaction: CommandInteraction) => {
 
 			case "jobThree":
 				crimeTitle = crimeThree.title;
-				crimePay = crimeThree.pay;
+				crimePay = crimeThree.pay + bonusPay;
 				cooldown = crimeThree.cooldown;
 				endTime = crimeThree.endTime;
 				outcomeNum = crimeThree.outcomeNum;
@@ -249,6 +250,8 @@ const run = async (interaction: CommandInteraction) => {
 			}
 			// The crime was an utter failure
 			else if (outcomeNum < 0.5) {
+				// Remove bonusPay from the equation so it's not included in the fine
+				crimePay -= bonusPay;
 				// Update the user's cash by removing some money
 				await updateBalance(balanceData, crimePay * -1, "cash");
 				await updateExperience(experienceData, pointReward * -1);

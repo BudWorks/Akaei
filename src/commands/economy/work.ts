@@ -91,6 +91,7 @@ const run = async (interaction: CommandInteraction) => {
 	const jobOne = WorkBuilder.getWork(500, 700, 2);
 	const jobTwo = WorkBuilder.getWork(1000, 1200, 5);
 	const jobThree = WorkBuilder.getWork(1500, 1700, 8);
+	const bonusPay = Math.floor(100 * Math.log10(experienceData.experience.level + 1));
 	const pointReward = Math.floor(Math.random() * (200 - 100 + 1)) + 100;
 
 	// Embed displaying the job choices
@@ -189,21 +190,21 @@ const run = async (interaction: CommandInteraction) => {
 			switch (componentInteraction.values[0]) {
 			case "jobOne":
 				jobTitle = jobOne.title;
-				jobPay = jobOne.pay;
+				jobPay = jobOne.pay + bonusPay;
 				cooldown = jobOne.cooldown;
 				endTime = jobOne.endTime;
 				break;
 
 			case "jobTwo":
 				jobTitle = jobTwo.title;
-				jobPay = jobTwo.pay;
+				jobPay = jobTwo.pay + bonusPay;
 				cooldown = jobTwo.cooldown;
 				endTime = jobTwo.endTime;
 				break;
 
 			case "jobThree":
 				jobTitle = jobThree.title;
-				jobPay = jobThree.pay;
+				jobPay = jobThree.pay + bonusPay;
 				cooldown = jobThree.cooldown;
 				endTime = jobThree.endTime;
 				break;
