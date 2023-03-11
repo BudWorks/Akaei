@@ -91,7 +91,10 @@ const run = async (interaction: CommandInteraction) => {
 	const jobOne = WorkBuilder.getWork(500, 700, 2);
 	const jobTwo = WorkBuilder.getWork(1000, 1200, 5);
 	const jobThree = WorkBuilder.getWork(1500, 1700, 8);
+
+	// Logarithmic equation to adjust the bonus earned coins based on the user's level
 	const bonusPay = Math.floor(100 * Math.log10(experienceData.experience.level + 1));
+	// Experience point reward based on a 100-200 point range
 	const pointReward = Math.floor(Math.random() * (200 - 100 + 1)) + 100;
 
 	// Embed displaying the job choices
@@ -231,7 +234,7 @@ const run = async (interaction: CommandInteraction) => {
 				return;
 			}
 
-			// Update the user's cash and create a cooldown linked to them for this command
+			// Update the user's cash + experience and create a cooldown linked to them for this command
 			await updateBalance(balanceData, jobPay, "cash");
 			await updateExperience(experienceData, pointReward);
 			await addCooldown(cooldownData, "work", endTime, channel?.id ?? user.id);

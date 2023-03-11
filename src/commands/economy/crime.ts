@@ -91,7 +91,10 @@ const run = async (interaction: CommandInteraction) => {
 	const crimeOne = CrimeBuilder.getCrime(500, 700, 2);
 	const crimeTwo = CrimeBuilder.getCrime(1000, 1200, 5);
 	const crimeThree = CrimeBuilder.getCrime(1500, 1700, 8);
+
+	// Logarithmic equation to adjust the bonus earned coins based on the user's level
 	const bonusPay = Math.floor(100 * Math.log10(experienceData.experience.level + 1));
+	// Experience point reward based on a 100-200 point range
 	const pointReward = Math.floor(Math.random() * (200 - 100 + 1)) + 100;
 
 	// Embed displaying the crime choices
@@ -237,7 +240,7 @@ const run = async (interaction: CommandInteraction) => {
 
 			// The crime was successful
 			if (outcomeNum >= 0.5) {
-				// Update the user's cash by giving them some money
+				// Update the user's cash + experience by giving them some money and points
 				await updateBalance(balanceData, crimePay, "cash");
 				await updateExperience(experienceData, pointReward);
 
@@ -252,7 +255,7 @@ const run = async (interaction: CommandInteraction) => {
 			else if (outcomeNum < 0.5) {
 				// Remove bonusPay from the equation so it's not included in the fine
 				crimePay -= bonusPay;
-				// Update the user's cash by removing some money
+				// Update the user's cash + experience by removing some money and points
 				await updateBalance(balanceData, crimePay * -1, "cash");
 				await updateExperience(experienceData, pointReward * -1);
 
