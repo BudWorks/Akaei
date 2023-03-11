@@ -96,6 +96,15 @@ const run = async (interaction: CommandInteraction) => {
 	const bonusPay = Math.floor(100 * Math.log10(experienceData.experience.level + 1));
 	// Experience point reward based on a 100-200 point range
 	const pointReward = Math.floor(Math.random() * (200 - 100 + 1)) + 100;
+	/*
+	 * Sigmoid function to determine the chance a user has at successfully committing a crime.
+	 * The minimum chance is 50% for low levels while the maximum is 80% for higher levels.
+	 * This caps out to 80% virtually around level 50, though it's effectively closer to 30.
+	 */
+	const successChance =
+		0.5 +
+		(0.8 - 0.5) *
+			(1 / (1 + Math.exp(-0.2 * (experienceData.experience.level - 10))));
 
 	// Embed displaying the crime choices
 	const crimeStartEmbed = new EmbedBuilder();
@@ -239,7 +248,7 @@ const run = async (interaction: CommandInteraction) => {
 			}
 
 			// The crime was successful
-			if (outcomeNum >= 0.5) {
+			if (outcomeNum <= successChance) {
 				// Update the user's cash + experience by giving them some money and points
 				await updateBalance(balanceData, crimePay, "cash");
 				await updateExperience(experienceData, pointReward);
@@ -252,7 +261,7 @@ const run = async (interaction: CommandInteraction) => {
 				});
 			}
 			// The crime was an utter failure
-			else if (outcomeNum < 0.5) {
+			else if (outcomeNum > successChance) {
 				// Remove bonusPay from the equation so it's not included in the fine
 				crimePay -= bonusPay;
 				// Update the user's cash + experience by removing some money and points
