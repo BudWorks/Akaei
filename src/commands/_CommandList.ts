@@ -5,6 +5,7 @@ import { deposit } from "./economy/deposit";
 import { give } from "./economy/give";
 import { withdraw } from "./economy/withdraw";
 import { work } from "./economy/work";
+import { exchange } from "./experience/exchange";
 import { level } from "./experience/level";
 
 /**
@@ -17,5 +18,6 @@ export const commandList = new CommandList({
 	"give": give,
 	"withdraw": withdraw,
 	"work": work,
+	"exchange": exchange,
 	"level": level,
 });
