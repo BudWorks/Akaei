@@ -58,6 +58,13 @@ export async function cooldownCheck () {
 				});
 				break;
 
+			case "rob":
+				cooldownNotifEmbed.addFields({
+					"name": "Now's your chance for some more cash!",
+					"value": "You're able to rob a user again!",
+				});
+				break;
+
 				// In the case that there isn't a valid type, send a generic notification.
 			default:
 				cooldownNotifEmbed.setColor(0x80dbb5);
