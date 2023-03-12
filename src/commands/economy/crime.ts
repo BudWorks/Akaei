@@ -97,14 +97,13 @@ const run = async (interaction: CommandInteraction) => {
 	// Experience point reward based on a 100-200 point range
 	const pointReward = Math.floor(Math.random() * (200 - 100 + 1)) + 100;
 	/*
-	 * Sigmoid function to determine the chance a user has at successfully committing a crime.
+	 * Exponential function to determine the chance a user has at successfully committing a crime.
 	 * The minimum chance is 50% for low levels while the maximum is 80% for higher levels.
-	 * This caps out to 80% virtually around level 50, though it's effectively closer to 30.
+	 * This caps out to 80% virtually around level 100, though it's effectively closer to 80.
 	 */
 	const successChance =
-		0.5 +
-		(0.8 - 0.5) *
-			(1 / (1 + Math.exp(-0.2 * (experienceData.experience.level - 10))));
+		0.5 + (0.8 - 0.5) * (1 - Math.exp(-0.05 * experienceData.experience.level));
+	console.log("success chance:", successChance);
 
 	// Embed displaying the crime choices
 	const crimeStartEmbed = new EmbedBuilder();
