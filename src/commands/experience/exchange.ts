@@ -11,6 +11,9 @@ import { Command } from "../../classes/Command";
 import { getBalance, updateBalance } from "../../utils/userBalance";
 import { getExperience, updateExperience } from "../../utils/userExperience";
 
+// Set to prevent user from using /exchange multiple times in a row
+const exchangeUser = new Set();
+
 /** The data of the command, including subcommands and options if applicable. */
 const data = new SlashCommandBuilder()
 	.setName("exchange")
@@ -55,6 +58,21 @@ const run = async (interaction: CommandInteraction) => {
 		return;
 	}
 
+	// Check if the user is already in the exchangeUser set or not. If they are, the command will end here.
+	if (exchangeUser.has(user.id)) {
+		exchangeEndEmbed.setColor(0xff7a90);
+		exchangeEndEmbed.addFields({
+			"name": "<:no:785336733696262154> Hold up a second!",
+			"value":
+				"You're already in the middle of an exchange, silly! You've gotta either wait or cancel to use the command again.",
+		});
+
+		await interaction.editReply({
+			"embeds": [ exchangeEndEmbed ],
+		});
+		return;
+	}
+
 	// The button to confirm the exchange
 	const exchangeConfirmButton = new ButtonBuilder()
 		.setCustomId("confirmButton")
@@ -90,6 +108,12 @@ const run = async (interaction: CommandInteraction) => {
 			"value": `It seems you're trying to spend more than you need to! I can't give you fractions of experience points, so I've lowered your spend from <:raycoin:684043360624705606>${ exchangeAmount } to <:raycoin:684043360624705606>${ cashAmount }.`,
 		});
 	}
+
+	// Add the user to the set and remove them after 30 seconds (the time it takes for the embed to close automatically).
+	exchangeUser.add(user.id);
+	setTimeout(() => {
+		exchangeUser.delete(user.id);
+	}, 30000);
 
 	// Respond with the confirmation embed
 	const response = await interaction.editReply({
@@ -149,6 +173,9 @@ const run = async (interaction: CommandInteraction) => {
 				"value": "Looks like there was an issue with the command!",
 			});
 		}
+
+		exchangeUser.delete(user.id);
+
 		await interaction.editReply({
 			"embeds": [ exchangeEndEmbed ],
 			"components": [],
@@ -162,6 +189,8 @@ const run = async (interaction: CommandInteraction) => {
 			"value":
 				"Looks like you took too long to respond. Just lemme know if you'd ever like to exchange in the future!",
 		});
+
+		exchangeUser.delete(user.id);
 
 		await interaction.editReply({
 			"embeds": [ exchangeEndEmbed ],
