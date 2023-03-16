@@ -4,6 +4,7 @@ import { crime } from "./economy/crime";
 import { deposit } from "./economy/deposit";
 import { give } from "./economy/give";
 import { rob } from "./economy/rob";
+import { store } from "./economy/store";
 import { withdraw } from "./economy/withdraw";
 import { work } from "./economy/work";
 import { exchange } from "./experience/exchange";
@@ -18,6 +19,7 @@ export const commandList = new CommandList({
 	"deposit": deposit,
 	"give": give,
 	"rob": rob,
+	"store": store,
 	"withdraw": withdraw,
 	"work": work,
 	"exchange": exchange,
