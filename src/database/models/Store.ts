@@ -5,7 +5,10 @@ import { Document, model, Schema } from "mongoose";
 export interface ItemInterface {
 	_id: string;
 	name: string;
+	category: string;
+	type: string;
 	price: number;
+	emote: string;
 }
 
 /**
@@ -25,11 +28,14 @@ export type StoreDocument = Document & StoreInterface;
  * The Schema corresponding to the User document interface.
  */
 const storeSchema = new Schema<StoreInterface>({
-	"_id": String,
+	"_id": { "type": String, "required": true },
 	"items": [ new Schema<ItemInterface>({
-		"_id": String,
-		"name": String,
-		"price": Number,
+		"_id": { "type": String, "required": true },
+		"name": { "type": String, "required": true },
+		"category": { "type": String, "required": true },
+		"type": { "type": String, "required": true },
+		"price": { "type": Number, "required": true },
+		"emote": { "type": String, "required": true },
 	}) ],
 });
 
