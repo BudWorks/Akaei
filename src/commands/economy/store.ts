@@ -38,7 +38,7 @@ const run = async (interaction: CommandInteraction) => {
 
 	// Adds the items one by one to the embed's fields
 	const itemFields = store.items.map((item) => ({
-		"name": item.name,
+		"name": `${ item.emote } ${ item.name }`,
 		"value": `Price: <:raycoin:684043360624705606>${ item.price }\nCode: ${ item._id }`,
 	}));
 
