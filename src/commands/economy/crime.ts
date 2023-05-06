@@ -6,7 +6,7 @@ import {
 	ComponentType,
 	EmbedBuilder,
 	MessageComponentInteraction,
-	SelectMenuBuilder,
+	StringSelectMenuBuilder,
 	SlashCommandBuilder,
 } from "discord.js";
 import { Command } from "../../classes/Command";
@@ -103,7 +103,6 @@ const run = async (interaction: CommandInteraction) => {
 	 */
 	const successChance =
 		0.5 + (0.8 - 0.5) * (1 - Math.exp(-0.05 * experienceData.experience.level));
-	console.log("success chance:", successChance);
 
 	// Embed displaying the crime choices
 	const crimeStartEmbed = new EmbedBuilder();
@@ -127,7 +126,7 @@ const run = async (interaction: CommandInteraction) => {
 	);
 
 	// The select menu for picking a crime
-	const crimeSelectMenu = new SelectMenuBuilder()
+	const crimeSelectMenu = new StringSelectMenuBuilder()
 		.setCustomId("crimeSelectMenu")
 		.setPlaceholder("Select a crime")
 		.addOptions([
@@ -160,7 +159,7 @@ const run = async (interaction: CommandInteraction) => {
 
 	// Action row containing the select menu
 	const crimeSelectMenuRow =
-		new ActionRowBuilder<SelectMenuBuilder>().addComponents(crimeSelectMenu);
+		new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(crimeSelectMenu);
 
 	// Action row containing the button
 	const crimeButtonRow = new ActionRowBuilder<ButtonBuilder>().addComponents(crimeCancelButton);
@@ -197,7 +196,7 @@ const run = async (interaction: CommandInteraction) => {
 		let outcomeNum: number;
 
 		// If the interaction was from the select menu
-		if (componentInteraction.componentType === ComponentType.SelectMenu) {
+		if (componentInteraction.componentType === ComponentType.StringSelect) {
 			// Check which crime was selected
 			switch (componentInteraction.values[0]) {
 			case "jobOne":

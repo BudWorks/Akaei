@@ -6,7 +6,7 @@ import {
 	ComponentType,
 	EmbedBuilder,
 	MessageComponentInteraction,
-	SelectMenuBuilder,
+	StringSelectMenuBuilder,
 	SlashCommandBuilder,
 } from "discord.js";
 import { Command } from "../../classes/Command";
@@ -119,7 +119,7 @@ const run = async (interaction: CommandInteraction) => {
 	);
 
 	// The select menu for picking a job
-	const workSelectMenu = new SelectMenuBuilder()
+	const workSelectMenu = new StringSelectMenuBuilder()
 		.setCustomId("workSelectMenu")
 		.setPlaceholder("Select a job")
 		.addOptions([
@@ -152,7 +152,7 @@ const run = async (interaction: CommandInteraction) => {
 
 	// Action row containing the select menu
 	const workSelectMenuRow =
-		new ActionRowBuilder<SelectMenuBuilder>().addComponents(workSelectMenu);
+		new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(workSelectMenu);
 
 	// Action row containing the button
 	const workButtonRow = new ActionRowBuilder<ButtonBuilder>().addComponents(workCancelButton);
@@ -188,7 +188,7 @@ const run = async (interaction: CommandInteraction) => {
 		let endTime: Date;
 
 		// If the interaction was from the select menu
-		if (componentInteraction.componentType === ComponentType.SelectMenu) {
+		if (componentInteraction.componentType === ComponentType.StringSelect) {
 			// Check which job was selected
 			switch (componentInteraction.values[0]) {
 			case "jobOne":
