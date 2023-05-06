@@ -28,8 +28,8 @@
     "dev": "cross-env NODE_ENV=development ts-node -r dotenv/config src/index.ts"
   },
   "dependencies": {
-    "@discordjs/rest": "^1.0.1",
-    "discord.js": "^14.1.1",
+    "@discordjs/rest": "^1.7.1",
+    "discord.js": "^14.10.2",
     "dotenv": "^16.0.1",
     "mongoose": "^6.5.0"
   },
