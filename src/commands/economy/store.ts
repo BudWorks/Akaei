@@ -36,8 +36,20 @@ const run = async (interaction: CommandInteraction) => {
 		return;
 	}
 
-	// Adds the items one by one to the embed's fields
-	const itemFields = store.items.map((item) => ({
+	// Amount of items displayed in the embed at any given time
+	const itemsPerPage = 5;
+	// The page the user is currently on
+	const currentPage = 1;
+
+	// Calculate the start and end indices of the items to display on the current page
+	const startIndex = (currentPage - 1) * itemsPerPage;
+	const endIndex = startIndex + itemsPerPage;
+
+	// Get the items to display on the current page
+	const itemsToDisplay = store.items.slice(startIndex, endIndex);
+
+	// Adds the current page's items one by one to the embed's fields
+	const itemFields = itemsToDisplay.map((item) => ({
 		"name": `${ item.emote } ${ item.name }`,
 		"value": `Price: <:raycoin:684043360624705606>${ item.price }\nCode: ${ item._id }`,
 	}));
@@ -45,10 +57,6 @@ const run = async (interaction: CommandInteraction) => {
 	storeEmbed.setTitle(`Store`);
 	storeEmbed.setColor(0xffc27e);
 	storeEmbed.addFields(itemFields);
-	// storeEmbed.setFooter({
-	// 	"text": `ID: ${  }`,
-	// 	// "iconURL": user.displayAvatarURL(),
-	// });
 
 	// Respond with the store embed
 	await interaction.editReply({ "embeds": [ storeEmbed ] });
