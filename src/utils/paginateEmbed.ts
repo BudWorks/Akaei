@@ -5,6 +5,7 @@ import {
 	CommandInteraction,
 	EmbedBuilder,
 	MessageComponentInteraction,
+	StringSelectMenuBuilder,
 } from "discord.js";
 import { StoreDocument } from "../database/models/Store";
 
@@ -14,12 +15,14 @@ import { StoreDocument } from "../database/models/Store";
  * @param data The data to display on the embed
  * @param currentPage The current page the embed displays
  * @param itemsPerPage The number of items to show on a page
+ * @param [selectMenuRow] The select menu for the embed
  */
 export async function paginateEmbed (
 	interaction: CommandInteraction,
 	data: StoreDocument,
 	currentPage: number,
 	itemsPerPage: number,
+	selectMenuRow?: ActionRowBuilder<StringSelectMenuBuilder>,
 ) {
 	// The paginated embed and regular embed depending on the output
 	const paginatedEmbed = new EmbedBuilder();
@@ -74,7 +77,7 @@ export async function paginateEmbed (
 
 	const response = await interaction.editReply({
 		"embeds": [ paginatedEmbed ],
-		"components": [ pageButtonRow ],
+		"components": [ selectMenuRow as ActionRowBuilder<StringSelectMenuBuilder>, pageButtonRow ],
 	});
 
 	// The interaction collector filter
@@ -122,7 +125,7 @@ export async function paginateEmbed (
 			return;
 		}
 		// Do everything all over again for whichever button was selected
-		await paginateEmbed(interaction, data, currentPage, 5);
+		await paginateEmbed(interaction, data, currentPage, 5, selectMenuRow);
 	}
 	catch {
 		// Update embed due to no response from the user
