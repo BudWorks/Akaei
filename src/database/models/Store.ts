@@ -18,6 +18,20 @@ export interface ItemInterface {
 }
 
 /**
+ * The interface for item categories.
+ */
+export interface CategoryInterface {
+	/** The ID of the category. */
+	_id: string;
+	/** The name of the category, displayed in the select menu. */
+	name: string;
+	/** The description of the category, displayed in the select menu. */
+	description: string;
+	/** The emote displayed next to the catrgory name in the select menu. */
+	emote: string;
+}
+
+/**
  * The interface representing the Store document.
  */
 export interface StoreInterface {
@@ -25,6 +39,8 @@ export interface StoreInterface {
 	_id: string;
 	/** All of the items in the store. */
 	items: Array<ItemInterface>;
+	/** All of the categories for items in the store. */
+	categories: Array<CategoryInterface>;
 }
 
 /**
@@ -51,6 +67,17 @@ const storeSchema = new Schema<StoreInterface>({
 		/** The price of the item. */
 		"price": { "type": Number, "required": true },
 		/** The emote displayed next to the item and associated button. */
+		"emote": { "type": String, "required": true },
+	}) ],
+	/** All of the items in the store. */
+	"categories": [ new Schema<CategoryInterface>({
+		/** The ID of the category. */
+		"_id": { "type": String, "required": true },
+		/** The name of the category, displayed in the select menu. */
+		"name": { "type": String, "required": true },
+		/** The description of the category, displayed in the select menu. */
+		"description": { "type": String, "required": true },
+		/** The emote displayed next to the catrgory name in the select menu. */
 		"emote": { "type": String, "required": true },
 	}) ],
 });
