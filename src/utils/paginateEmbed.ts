@@ -3,11 +3,14 @@ import {
 	ButtonBuilder,
 	ButtonStyle,
 	CommandInteraction,
+	ComponentType,
 	EmbedBuilder,
 	MessageComponentInteraction,
 	StringSelectMenuBuilder,
 } from "discord.js";
-import { StoreDocument } from "../database/models/Store";
+import { Store, StoreDocument } from "../database/models/Store";
+
+type EmbedFormat = "categories" | "store";
 
 /**
  * Turns an embed with lots of data into a paginated embed with page buttons
@@ -15,6 +18,7 @@ import { StoreDocument } from "../database/models/Store";
  * @param data The data to display on the embed
  * @param currentPage The current page the embed displays
  * @param itemsPerPage The number of items to show on a page
+ * @param embedFormat The format of the embed and which data will be displayed
  * @param [selectMenuRow] The select menu for the embed
  */
 export async function paginateEmbed (
@@ -22,6 +26,7 @@ export async function paginateEmbed (
 	data: StoreDocument,
 	currentPage: number,
 	itemsPerPage: number,
+	embedFormat: EmbedFormat,
 	selectMenuRow?: ActionRowBuilder<StringSelectMenuBuilder>,
 ) {
 	// The paginated embed and regular embed depending on the output
@@ -35,16 +40,59 @@ export async function paginateEmbed (
 	paginatedEmbed.setTitle(`Store`);
 	paginatedEmbed.setColor(0xffc27e);
 
-	// Get the items to display on the current page
-	const itemsToDisplay = data.items.slice(startIndex, endIndex);
+	// The data being displayed on the pages
+	let dataToDisplay;
+	// The embed fields
+	let dataFields;
 
-	// Add the current page's items one by one to the embed's fields
-	const itemFields = itemsToDisplay.map((item) => ({
-		"name": `${ item.emote } ${ item.name }`,
-		"value": `Price: <:raycoin:684043360624705606>${ item.price }\nCode: ${ item._id }`,
-	}));
+	// Check what format the embed should be in
+	switch (embedFormat) {
+	// For displaying pages of categories
+	case "categories":
+		// Get the categories to display on the current page
+		dataToDisplay = data.categories.slice(startIndex, endIndex);
 
-	paginatedEmbed.addFields(itemFields);
+		// Add the current page's categories one by one to the embed fields
+		dataFields = dataToDisplay.map((item) => ({
+			"name": `${ item.emote } ${ item.name }`,
+			"value": item.description,
+		}));
+		break;
+
+		// For displaying pages of store items
+	case "store":
+		// Get the items to display on the current page
+		dataToDisplay = data.items.slice(startIndex, endIndex);
+
+		// Add the current page's items one by one to the embed fields
+		dataFields = dataToDisplay.map((item) => ({
+			"name": `${ item.emote } ${ item.name }`,
+			"value": `Price: <:raycoin:684043360624705606>${ item.price }\nCode: ${ item._id }`,
+		}));
+		break;
+
+	default:
+		/*
+		This should never be seen.
+		This is just a placeholder until I add actual
+		error handling, which I'll be doing soon.
+		Too bad!
+		*/
+		embedEnd.setColor(0xff7a90);
+		embedEnd.addFields({
+			"name": "<:no:785336733696262154> That's not right!",
+			"value": "Looks like there was an issue with the command!",
+		});
+
+		await interaction.editReply({
+			"embeds": [ embedEnd ],
+			"components": [],
+		});
+		return;
+	}
+
+	// Add the generated fields to the embed
+	paginatedEmbed.addFields(dataFields);
 
 	// Previous page button
 	const pageBackButton = new ButtonBuilder()
@@ -60,12 +108,12 @@ export async function paginateEmbed (
 		.setStyle(ButtonStyle.Primary)
 		.setEmoji("819655631501656125");
 
-	// Disables the back button on the first page
+	// Disables the "back" button on the first page
 	if (currentPage === 1) {
 		pageBackButton.setDisabled(true);
 	}
-	// Disables the next button on the last page
-	else if (currentPage === Math.ceil(data.items.length / itemsPerPage)) {
+	// Disables the "next" button on the last page
+	if (currentPage === Math.ceil(dataToDisplay.length / itemsPerPage)) {
 		pageNextButton.setDisabled(true);
 	}
 
@@ -75,10 +123,21 @@ export async function paginateEmbed (
 		pageNextButton,
 	);
 
-	const response = await interaction.editReply({
-		"embeds": [ paginatedEmbed ],
-		"components": [ selectMenuRow as ActionRowBuilder<StringSelectMenuBuilder>, pageButtonRow ],
-	});
+	let response;
+	// If a select menu row was provided as a parameter
+	if (selectMenuRow) {
+		response = await interaction.editReply({
+			"embeds": [ paginatedEmbed ],
+			"components": [ selectMenuRow as ActionRowBuilder<StringSelectMenuBuilder>, pageButtonRow ],
+		});
+	}
+	// If no select menu row was provided
+	else {
+		response = await interaction.editReply({
+			"embeds": [ paginatedEmbed ],
+			"components": [ pageButtonRow ],
+		});
+	}
 
 	// The interaction collector filter
 	const filter = (i: MessageComponentInteraction) => {
@@ -87,45 +146,77 @@ export async function paginateEmbed (
 	};
 
 	try {
-		// The button interaction from the user
-		const buttonInteraction = await response.awaitMessageComponent({
+		// The interaction from the user
+		const componentInteraction = await response.awaitMessageComponent({
 			"filter": filter,
 			"time": 30000,
 		});
 
-		// Check which button was selected
-		switch (buttonInteraction.customId) {
-		// Go to the previous page of the embed
-		case "backButton":
-			currentPage--;
-			break;
+		// The user selects a category
+		if (componentInteraction.componentType === ComponentType.StringSelect) {
+			// Item data for that category
+			[ data ] = await Store.aggregate([
+				{ "$match": { "_id": "global" } },
+				{ "$unwind": "$items" },
+				{ "$match": { "items.category": componentInteraction.values[0] } },
+				{ "$group": { "_id": null, "items": { "$push": "$items" } } },
+				{ "$project": { "_id": 0, "items": 1 } },
+			]);
 
-			// Go to the next page of the embed
-		case "nextButton":
-			currentPage++;
-			break;
-
-		default:
-			/*
-					This should never be seen.
-					This is just a placeholder until I add actual
-					error handling, which I'll be doing soon.
-					Too bad!
-					*/
-			embedEnd.setColor(0xff7a90);
-			embedEnd.addFields({
-				"name": "<:no:785336733696262154> That's not right!",
-				"value": "Looks like there was an issue with the command!",
-			});
-
-			await interaction.editReply({
-				"embeds": [ embedEnd ],
-				"components": [],
-			});
-			return;
+			// Open a paginated display of the items in the chosen category
+			await paginateEmbed(
+				interaction,
+				data,
+				currentPage,
+				5,
+				"store",
+				selectMenuRow,
+			);
 		}
-		// Do everything all over again for whichever button was selected
-		await paginateEmbed(interaction, data, currentPage, 5, selectMenuRow);
+		// The user selects a button
+		else if (componentInteraction.componentType === ComponentType.Button) {
+			// Check which button was selected
+			switch (componentInteraction.customId) {
+			// Go to the previous page of the embed
+			case "backButton":
+				currentPage--;
+				break;
+
+				// Go to the next page of the embed
+			case "nextButton":
+				currentPage++;
+				break;
+
+			default:
+				/*
+						This should never be seen.
+						This is just a placeholder until I add actual
+						error handling, which I'll be doing soon.
+						Too bad!
+						*/
+				embedEnd.setColor(0xff7a90);
+				embedEnd.addFields({
+					"name": "<:no:785336733696262154> That's not right!",
+					"value": "Looks like there was an issue with the command!",
+				});
+
+				await interaction.editReply({
+					"embeds": [ embedEnd ],
+					"components": [],
+				});
+				return;
+			}
+
+			// Display the page corresponding to the button pressed
+			await paginateEmbed(
+				interaction,
+				data,
+				currentPage,
+				5,
+				embedFormat,
+				selectMenuRow,
+			);
+		}
 	}
 	catch {
 		// Update embed due to no response from the user

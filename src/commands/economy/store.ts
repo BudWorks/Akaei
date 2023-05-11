@@ -19,7 +19,7 @@ const run = async (interaction: CommandInteraction) => {
 	await interaction.deferReply();
 
 	// The main store data
-	const store = await Store.findOne({ "_id": "global" });
+	const store = await Store.findOne({ "_id": "global" }, "categories");
 
 	// If the store does not exist then the command ends here
 	if (!store) {
@@ -56,7 +56,14 @@ const run = async (interaction: CommandInteraction) => {
 		new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(categorySelectMenu);
 
 	// Once the data has been retrieved, it's sorted into pages with 5 items per page
-	await paginateEmbed(interaction, store, 1, 5, categorySelectMenuRow);
+	await paginateEmbed(
+		interaction,
+		store,
+		1,
+		5,
+		"categories",
+		categorySelectMenuRow,
+	);
 };
 
 export const store: Command = new Command(data, run);
