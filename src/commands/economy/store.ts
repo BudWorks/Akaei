@@ -19,7 +19,7 @@ const run = async (interaction: CommandInteraction) => {
 	await interaction.deferReply();
 
 	// The main store data
-	const store = await Store.findOne({ "_id": "global" }, "items");
+	const store = await Store.findOne({ "_id": "global" });
 
 	// If the store does not exist then the command ends here
 	if (!store) {
@@ -37,30 +37,19 @@ const run = async (interaction: CommandInteraction) => {
 		return;
 	}
 
+	// Generate the category fields for the select menu
+	const categoryFields = store.categories.map((category) => ({
+		"label": category.name,
+		"description": category.description,
+		"emoji": category.emote,
+		"value": category._id,
+	}));
+
 	// The select menu for picking a store category
 	const categorySelectMenu = new StringSelectMenuBuilder()
-		.setCustomId("workSelectMenu")
+		.setCustomId("categorySelectMenu")
 		.setPlaceholder("Select an item category")
-		.addOptions([
-			{
-				"label": "Category 1",
-				"description": `This is the first category`,
-				"emoji": "785555664856547378",
-				"value": "jobOne",
-			},
-			{
-				"label": "Category 2",
-				"description": `This is the second category`,
-				"emoji": "785555675144257536",
-				"value": "jobTwo",
-			},
-			{
-				"label": "Category 3",
-				"description": `This is the third category`,
-				"emoji": "785555684799938630",
-				"value": "jobThree",
-			},
-		]);
+		.addOptions(categoryFields);
 
 	// Action row containing the select menu
 	const categorySelectMenuRow =
