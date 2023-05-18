@@ -44,13 +44,16 @@ export async function paginateEmbed (
 	let dataToDisplay;
 	// The embed fields
 	let dataFields;
+	// ALL of current data selected, not just what's shown on the page
+	let currentData;
 
 	// Check what format the embed should be in
 	switch (embedFormat) {
 	// For displaying pages of categories
 	case "categories":
+		currentData = data.categories;
 		// Get the categories to display on the current page
-		dataToDisplay = data.categories.slice(startIndex, endIndex);
+		dataToDisplay = currentData.slice(startIndex, endIndex);
 
 		// Add the current page's categories one by one to the embed fields
 		dataFields = dataToDisplay.map((item) => ({
@@ -61,8 +64,9 @@ export async function paginateEmbed (
 
 		// For displaying pages of store items
 	case "store":
+		currentData = data.items;
 		// Get the items to display on the current page
-		dataToDisplay = data.items.slice(startIndex, endIndex);
+		dataToDisplay = currentData.slice(startIndex, endIndex);
 
 		// Add the current page's items one by one to the embed fields
 		dataFields = dataToDisplay.map((item) => ({
@@ -113,7 +117,7 @@ export async function paginateEmbed (
 		pageBackButton.setDisabled(true);
 	}
 	// Disables the "next" button on the last page
-	if (currentPage === Math.ceil(dataToDisplay.length / itemsPerPage)) {
+	if (currentPage === Math.ceil(currentData.length / itemsPerPage)) {
 		pageNextButton.setDisabled(true);
 	}
 
@@ -164,14 +168,7 @@ export async function paginateEmbed (
 			]);
 
 			// Open a paginated display of the items in the chosen category
-			await paginateEmbed(
-				interaction,
-				data,
-				currentPage,
-				5,
-				"store",
-				selectMenuRow,
-			);
+			await paginateEmbed(interaction, data, 1, 5, "store", selectMenuRow);
 		}
 		// The user selects a button
 		else if (componentInteraction.componentType === ComponentType.Button) {
