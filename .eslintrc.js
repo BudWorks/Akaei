@@ -26,7 +26,7 @@ module.exports = {
 		"eqeqeq": [ "error" ],
 		"yoda": [ "warn", "never" ],
 		"no-use-before-define": [ "error", {
-			"functions": true,
+			"functions": false,
 			"classes": true,
 			"variables": true,
 		} ],

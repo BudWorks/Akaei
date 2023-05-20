@@ -6,8 +6,8 @@ import {
 	StringSelectMenuBuilder,
 } from "discord.js";
 import { Command } from "../../classes/Command";
-import { Store } from "../../database/models/Store";
 import { paginateEmbed } from "../../utils/paginateEmbed";
+import { getStoreData } from "../../utils/storeData";
 
 /** The data of the command, including subcommands and options if applicable. */
 const data = new SlashCommandBuilder()
@@ -19,7 +19,7 @@ const run = async (interaction: CommandInteraction) => {
 	await interaction.deferReply();
 
 	// The main store data
-	const store = await Store.findOne({ "_id": "global" }, "categories");
+	const store = await getStoreData();
 
 	// If the store does not exist then the command ends here
 	if (!store) {
