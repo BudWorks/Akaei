@@ -12,8 +12,8 @@ export interface embedTemplate<T> {
  * @param itemsPerPage The number of items to display on each embed page.
  * @returns Returns the sliced data.
  */
-export async function sliceData (
-	data: any[], // no explicit any
+export async function sliceData<T> (
+	data: T[],
 	currentPage: number,
 	itemsPerPage: number,
 ) {
@@ -46,8 +46,8 @@ export async function formatFields<T> (
  * @param itemsPerPage The number of items to display on each embed page.
  * @returns Returns an action row with the page buttons.
  */
-export async function addPageButtons (
-	data: any[], // no explicit any
+export async function addPageButtons<T> (
+	data: T[],
 	currentPage: number,
 	itemsPerPage: number,
 ) {
