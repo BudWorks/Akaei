@@ -1,5 +1,8 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 
+/**
+ * The template used for displaying data on paginated embed fields
+ */
 export interface EmbedTemplate<T> {
 	name: (data: T) => string;
 	value: (data: T) => string;
