@@ -9,7 +9,7 @@ import { Command } from "../../classes/Command";
 import { CategoryInterface } from "../../database/models/Store";
 import {
 	addPageButtons,
-	embedTemplate,
+	EmbedTemplate,
 	formatFields,
 	sliceData,
 } from "../../utils/paginateEmbed";
@@ -66,7 +66,7 @@ const run = async (interaction: CommandInteraction) => {
 		new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(categorySelectMenu);
 
 	// Template used to format the embed when displaying categories
-	const categoryTemplate: embedTemplate<CategoryInterface> = {
+	const categoryTemplate: EmbedTemplate<CategoryInterface> = {
 		"name": (category) => `${ category.emote } ${ category.name }`,
 		"value": (category) => category.description,
 	};

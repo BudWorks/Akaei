@@ -1,6 +1,6 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 
-export interface embedTemplate<T> {
+export interface EmbedTemplate<T> {
 	name: (data: T) => string;
 	value: (data: T) => string;
 }
@@ -13,7 +13,7 @@ export interface embedTemplate<T> {
  * @returns Returns the sliced data.
  */
 export async function sliceData<T> (
-	data: T[],
+	data: Array<T>,
 	currentPage: number,
 	itemsPerPage: number,
 ) {
@@ -30,8 +30,8 @@ export async function sliceData<T> (
  * @returns Returns the formatted fields to be added to an embed.
  */
 export async function formatFields<T> (
-	dataToDisplay: T[],
-	template: embedTemplate<T>,
+	dataToDisplay: Array<T>,
+	template: EmbedTemplate<T>,
 ) {
 	return dataToDisplay.map((data) => ({
 		"name": template.name(data),
@@ -47,7 +47,7 @@ export async function formatFields<T> (
  * @returns Returns an action row with the page buttons.
  */
 export async function addPageButtons<T> (
-	data: T[],
+	data: Array<T>,
 	currentPage: number,
 	itemsPerPage: number,
 ) {
