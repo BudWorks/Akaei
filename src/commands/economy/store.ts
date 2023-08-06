@@ -34,7 +34,7 @@ const run = async (interaction: CommandInteraction) => {
 	// If the store does not exist then the command ends here
 	if (!store) {
 		storeEmbed.setColor(0xff7a90);
-		storeEmbed.addFields({
+		storeEmbed.setFields({
 			"name": "<:no:785336733696262154> Sorry, we're closed!",
 			"value":
 				"Looks like this store is unavailable! Please try again in the future.",
@@ -148,7 +148,7 @@ const run = async (interaction: CommandInteraction) => {
 		else {
 			storeEmbed.setTitle(" ");
 			storeEmbed.setColor(0xff7a90);
-			storeEmbed.addFields({
+			storeEmbed.setFields({
 				"name": "<:no:785336733696262154> Sorry, we're closed!",
 				"value":
 					"Looks like this store is unavailable! Please try again in the future.",
@@ -230,7 +230,7 @@ const run = async (interaction: CommandInteraction) => {
 					Too bad!
 					*/
 					storeEmbed.setColor(0xff7a90);
-					storeEmbed.addFields({
+					storeEmbed.setFields({
 						"name": "<:no:785336733696262154> That's not right!",
 						"value": "Looks like there was an issue with the command!",
 					});
