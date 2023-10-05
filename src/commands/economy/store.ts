@@ -8,7 +8,10 @@ import {
 	StringSelectMenuBuilder,
 } from "discord.js";
 import { Command } from "../../classes/Command";
-import { CategoryInterface, ItemInterface } from "../../database/models/Store";
+import {
+	CategoryInterface,
+	StoreItemInterface,
+} from "../../database/models/Store";
 import {
 	addPageButtons,
 	EmbedTemplate,
@@ -74,7 +77,7 @@ const run = async (interaction: CommandInteraction) => {
 	};
 
 	// Template used to format the embed when displaying items
-	const itemTemplate: EmbedTemplate<ItemInterface> = {
+	const itemTemplate: EmbedTemplate<StoreItemInterface> = {
 		"name": (item) => `${ item.emote } ${ item.name }`,
 		"value": (item) => `Price: <:raycoin:684043360624705606>${ item.price }\nCode: ${ item._id }`,
 	};
@@ -86,12 +89,12 @@ const run = async (interaction: CommandInteraction) => {
 	// The number of items being displayed per page
 	const itemsPerPage = 5;
 	// The data being displayed
-	let currentData: Array<CategoryInterface> | Array<ItemInterface> =
+	let currentData: Array<CategoryInterface> | Array<StoreItemInterface> =
 		store.categories;
 	// The template being used in the embed
 	let currentTemplate:
 		| EmbedTemplate<CategoryInterface>
-		| EmbedTemplate<ItemInterface> = categoryTemplate;
+		| EmbedTemplate<StoreItemInterface> = categoryTemplate;
 	let pageButtonRow;
 
 	// Runs for as long as the store is open
@@ -124,7 +127,7 @@ const run = async (interaction: CommandInteraction) => {
 		else if (currentData.length > 0 && "price" in currentData[0]) {
 			// The sliced data being displayed on the embed
 			const dataToDisplay = await sliceData(
-				currentData as Array<ItemInterface>,
+				currentData as Array<StoreItemInterface>,
 				currentPage,
 				itemsPerPage,
 			);
@@ -132,14 +135,14 @@ const run = async (interaction: CommandInteraction) => {
 			// The data formatted into fields for the embed, using the item template
 			const dataFields = await formatFields(
 				dataToDisplay,
-				currentTemplate as EmbedTemplate<ItemInterface>,
+				currentTemplate as EmbedTemplate<StoreItemInterface>,
 			);
 
 			storeEmbed.setFields(dataFields);
 
 			// The action row with the page buttons
 			pageButtonRow = await addPageButtons(
-				currentData as Array<ItemInterface>,
+				currentData as Array<StoreItemInterface>,
 				currentPage,
 				itemsPerPage,
 			);
