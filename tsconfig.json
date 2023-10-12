@@ -2,7 +2,9 @@
   "compilerOptions": {
     "module": "NodeNext",
     "resolveJsonModule": true,
-    "target": "ESNext"
+    "target": "ESNext",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
   "extends": "@tsconfig/recommended/tsconfig.json"
 }
