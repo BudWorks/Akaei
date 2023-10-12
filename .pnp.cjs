@@ -37,7 +37,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["discord.js", "npm:14.10.2"],\
             ["dotenv", "npm:16.0.1"],\
             ["eslint", "npm:8.20.0"],\
-            ["mongoose", "npm:7.1.0"],\
+            ["mongoose", "npm:7.6.1"],\
             ["prettier", "npm:2.7.1"],\
             ["ts-node", "virtual:7eb79df510920dd03e1184f7608ee34a96e0e936f7303f3ea41d1c98a34ad5c4f930746615119f10d2d9812847178eeeac66f1e74e9f6e2b728637eea93fd943#npm:10.9.1"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=65a307"]\
@@ -198,6 +198,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@jridgewell/trace-mapping", "npm:0.3.9"],\
             ["@jridgewell/resolve-uri", "npm:3.1.0"],\
             ["@jridgewell/sourcemap-codec", "npm:1.4.14"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@mongodb-js/saslprep", [\
+        ["npm:1.1.0", {\
+          "packageLocation": "./.yarn/cache/@mongodb-js-saslprep-npm-1.1.0-3906c025b8-1479a43e21.zip/node_modules/@mongodb-js/saslprep/",\
+          "packageDependencies": [\
+            ["@mongodb-js/saslprep", "npm:1.1.0"],\
+            ["sparse-bitfield", "npm:3.0.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -646,7 +656,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["discord.js", "npm:14.10.2"],\
             ["dotenv", "npm:16.0.1"],\
             ["eslint", "npm:8.20.0"],\
-            ["mongoose", "npm:7.1.0"],\
+            ["mongoose", "npm:7.6.1"],\
             ["prettier", "npm:2.7.1"],\
             ["ts-node", "virtual:7eb79df510920dd03e1184f7608ee34a96e0e936f7303f3ea41d1c98a34ad5c4f930746615119f10d2d9812847178eeeac66f1e74e9f6e2b728637eea93fd943#npm:10.9.1"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=65a307"]\
@@ -731,10 +741,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["bson", [\
-        ["npm:5.2.0", {\
-          "packageLocation": "./.yarn/cache/bson-npm-5.2.0-046a4ac35e-1297f8776a.zip/node_modules/bson/",\
+        ["npm:5.5.0", {\
+          "packageLocation": "./.yarn/cache/bson-npm-5.5.0-994b2902b7-61afd240df.zip/node_modules/bson/",\
           "packageDependencies": [\
-            ["bson", "npm:5.2.0"]\
+            ["bson", "npm:5.5.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -1525,33 +1535,41 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["mongodb", [\
-        ["npm:5.3.0", {\
-          "packageLocation": "./.yarn/cache/mongodb-npm-5.3.0-2ac8ac2fcd-da86069555.zip/node_modules/mongodb/",\
+        ["npm:5.9.0", {\
+          "packageLocation": "./.yarn/cache/mongodb-npm-5.9.0-e0f7c8bf46-5fb828d650.zip/node_modules/mongodb/",\
           "packageDependencies": [\
-            ["mongodb", "npm:5.3.0"]\
+            ["mongodb", "npm:5.9.0"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:9445189529b16d28defa204ecaaa6aaae97d2a2626eb99c23b7b68e016c0c60e690da1c293f5ce9971d5547877977c93e241cbae5647ff19f2d5ab728aaf8cbc#npm:5.3.0", {\
-          "packageLocation": "./.yarn/__virtual__/mongodb-virtual-5194bef9e0/0/cache/mongodb-npm-5.3.0-2ac8ac2fcd-da86069555.zip/node_modules/mongodb/",\
+        ["virtual:3f6e944cfa555628f2cd83b5edef03c09367ec4366ffdcef4065abeae45447dc041f6724eaf815900fe6a134bbefcf6550bdb81e7f880a458fa18c863d024b51#npm:5.9.0", {\
+          "packageLocation": "./.yarn/__virtual__/mongodb-virtual-3e37816758/0/cache/mongodb-npm-5.9.0-e0f7c8bf46-5fb828d650.zip/node_modules/mongodb/",\
           "packageDependencies": [\
-            ["mongodb", "virtual:9445189529b16d28defa204ecaaa6aaae97d2a2626eb99c23b7b68e016c0c60e690da1c293f5ce9971d5547877977c93e241cbae5647ff19f2d5ab728aaf8cbc#npm:5.3.0"],\
+            ["mongodb", "virtual:3f6e944cfa555628f2cd83b5edef03c09367ec4366ffdcef4065abeae45447dc041f6724eaf815900fe6a134bbefcf6550bdb81e7f880a458fa18c863d024b51#npm:5.9.0"],\
             ["@aws-sdk/credential-providers", null],\
+            ["@mongodb-js/saslprep", "npm:1.1.0"],\
+            ["@mongodb-js/zstd", null],\
             ["@types/aws-sdk__credential-providers", null],\
+            ["@types/kerberos", null],\
             ["@types/mongodb-client-encryption", null],\
+            ["@types/mongodb-js__zstd", null],\
             ["@types/snappy", null],\
-            ["bson", "npm:5.2.0"],\
+            ["bson", "npm:5.5.0"],\
+            ["kerberos", null],\
             ["mongodb-client-encryption", null],\
             ["mongodb-connection-string-url", "npm:2.6.0"],\
-            ["saslprep", "npm:1.0.3"],\
             ["snappy", null],\
             ["socks", "npm:2.7.1"]\
           ],\
           "packagePeers": [\
             "@aws-sdk/credential-providers",\
+            "@mongodb-js/zstd",\
             "@types/aws-sdk__credential-providers",\
+            "@types/kerberos",\
             "@types/mongodb-client-encryption",\
+            "@types/mongodb-js__zstd",\
             "@types/snappy",\
+            "kerberos",\
             "mongodb-client-encryption",\
             "snappy"\
           ],\
@@ -1570,13 +1588,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["mongoose", [\
-        ["npm:7.1.0", {\
-          "packageLocation": "./.yarn/cache/mongoose-npm-7.1.0-9445189529-e24aa2d761.zip/node_modules/mongoose/",\
+        ["npm:7.6.1", {\
+          "packageLocation": "./.yarn/cache/mongoose-npm-7.6.1-3f6e944cfa-ed296c8dc8.zip/node_modules/mongoose/",\
           "packageDependencies": [\
-            ["mongoose", "npm:7.1.0"],\
-            ["bson", "npm:5.2.0"],\
+            ["mongoose", "npm:7.6.1"],\
+            ["bson", "npm:5.5.0"],\
             ["kareem", "npm:2.5.1"],\
-            ["mongodb", "virtual:9445189529b16d28defa204ecaaa6aaae97d2a2626eb99c23b7b68e016c0c60e690da1c293f5ce9971d5547877977c93e241cbae5647ff19f2d5ab728aaf8cbc#npm:5.3.0"],\
+            ["mongodb", "virtual:3f6e944cfa555628f2cd83b5edef03c09367ec4366ffdcef4065abeae45447dc041f6724eaf815900fe6a134bbefcf6550bdb81e7f880a458fa18c863d024b51#npm:5.9.0"],\
             ["mpath", "npm:0.9.0"],\
             ["mquery", "npm:5.0.0"],\
             ["ms", "npm:2.1.3"],\
@@ -1819,16 +1837,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/safe-buffer-npm-5.2.1-3481c8aa9b-b99c4b41fd.zip/node_modules/safe-buffer/",\
           "packageDependencies": [\
             ["safe-buffer", "npm:5.2.1"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["saslprep", [\
-        ["npm:1.0.3", {\
-          "packageLocation": "./.yarn/cache/saslprep-npm-1.0.3-8db649c346-4fdc0b70fb.zip/node_modules/saslprep/",\
-          "packageDependencies": [\
-            ["saslprep", "npm:1.0.3"],\
-            ["sparse-bitfield", "npm:3.0.3"]\
           ],\
           "linkType": "HARD"\
         }]\
