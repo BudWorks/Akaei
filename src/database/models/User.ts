@@ -1,89 +1,93 @@
-import { Document, model, Schema } from "mongoose";
+import {
+	prop,
+	getModelForClass,
+	modelOptions,
+	DocumentType,
+} from "@typegoose/typegoose";
+
 /**
- * The interface for the user's cooldowns.
+ * The class for the user's balance.
  */
-export interface CooldownInterface {
+class Balance {
+	/** The amount of cash a user has withdrawn. */
+	@prop({ "required": true, "default": 0 })
+	public cash!: number;
+
+	/** The amount of money a user has deposited into the bank. */
+	@prop({ "required": true, "default": 0 })
+	public bank!: number;
+
+	/** The amount of money a user has deposited into their card. */
+	@prop({ "required": true, "default": 0 })
+	public card!: number;
+}
+
+/**
+ * The class for the user's experience.
+ */
+class Experience {
+	/** The number of points a user has. */
+	@prop({ "required": true, "default": 0 })
+	public points!: number;
+
+	/** The level a user is currently at. */
+	@prop({ "required": true, "default": 1 })
+	public level!: number;
+
+	/** The points required to level up. */
+	@prop({ "required": true, "default": 100 })
+	public nextLevelPoints!: number;
+}
+
+/**
+ * The class for the user's cooldowns.
+ */
+class Cooldown {
 	/** The type of cooldown. */
-	type: string;
+	@prop({ "required": true })
+	public type!: string;
+
 	/** The date in ms in which the cooldown will finish. */
-	endTime: Date;
+	@prop({ "required": true })
+	public endTime!: Date;
+
 	/** The Snowflake ID of the channel the initial interaction was used in, to send a notification. */
-	channelId: string;
+	@prop({ "required": true })
+	public channelId!: string;
 }
 
 /**
- * The interface representing the User document.
+ * The class for all of the user's data.
  */
-export interface UserInterface {
+@modelOptions({ "schemaOptions": { "collection": "users" } })
+class User {
 	/** The Snowflake ID of the user. */
-	_id: string;
+	@prop({ "required": true })
+	public _id!: string;
+
 	/** The Discord username of the user. */
-	username: string;
-	/** Data associated with the balance of a user. */
-	balance: {
-		/** The amount of cash a user has withdrawn. */
-		cash: number;
-		/** The amount of money a user has deposited into the bank. */
-		bank: number;
-		/** The amount of money a user has deposited into their card. */
-		card: number;
-	};
-	/** Data associated with the experience points of a user. */
-	experience: {
-		/** The number of points a user has. */
-		points: number;
-		/** The level a user is currently at. */
-		level: number;
-		/** The points required to level up. */
-		nextLevelPoints: number;
-	};
+	@prop({ "required": true })
+	public username!: string;
+
+	/** The balance data of a user. */
+	@prop({ "default": () => ({ "cash": 0, "bank": 0, "card": 0 }) })
+	public balance!: Balance;
+
+	/** The experience data of a user. */
+	@prop({ "default": () => ({ "points": 0, "level": 0, "nextLevelPoints": 0 }) })
+	public experience!: Experience;
+
 	/** The cooldowns that a user is currently undergoing. */
-	cooldowns: Array<CooldownInterface>;
+	@prop({ "type": () => Array<Cooldown>, "default": [] })
+	public cooldowns!: Array<Cooldown>;
 }
-
-/**
- * The Document type for the User schema.
- */
-export type UserDocument = Document & UserInterface;
-
-/**
- * The Schema corresponding to the User document interface.
- */
-const userSchema = new Schema<UserInterface>({
-	/** The Snowflake ID of the user. */
-	"_id": { "type": String, "required": true },
-	/** The Discord username of the user. */
-	"username": { "type": String, "required": true },
-	/** Data associated with the balance of a user. */
-	"balance": {
-		/** The amount of cash a user has withdrawn. */
-		"cash": Number,
-		/** The amount of money a user has deposited into the bank. */
-		"bank": Number,
-		/** The amount of money a user has deposited into their card. */
-		"card": Number,
-	},
-	/** Data associated with the experience points of a user. */
-	"experience": {
-		/** The number of points a user has. */
-		"points": Number,
-		/** The level a user is currently at. */
-		"level": Number,
-		/** The points required to level up. */
-		"nextLevelPoints": Number,
-	},
-	/** The cooldowns that a user is currently undergoing. */
-	"cooldowns": [ new Schema<CooldownInterface>({
-		/** The type of cooldown. */
-		"type": String,
-		/** The date in ms in which the cooldown will finish. */
-		"endTime": Date,
-		/** The Snowflake ID of the channel the initial interaction was used in, to send a notification. */
-		"channelId": String,
-	}) ],
-});
 
 /**
  * The model for creating and reading all of the data in the User schema.
  */
-export const User = model<UserInterface>("User", userSchema);
+export const UserModel = getModelForClass(User);
+
+/**
+ * The type for instances of UserModel, representing documents of the User schema.
+ */
+export type UserDocument = DocumentType<User>;
