@@ -78,7 +78,7 @@ class User {
 	public experience!: Experience;
 
 	/** The cooldowns that a user is currently undergoing. */
-	@prop({ "type": () => Array<Cooldown>, "default": [] })
+	@prop({ "type": () => [ Cooldown ], "default": [] })
 	public cooldowns!: Array<Cooldown>;
 }
 
