@@ -1,4 +1,4 @@
-import { User, UserDocument } from "../database/models/User";
+import { UserModel, UserDocument } from "../database/models/User";
 
 /**
  * Finds and returns the balance data of the specified user.
@@ -8,12 +8,12 @@ import { User, UserDocument } from "../database/models/User";
  */
 export async function getBalance (id: string, username: string) {
 	/** The balance data of the specified User. */
-	let user = await User.findOne({ "_id": id }, "balance");
+	let user = await UserModel.findOne({ "_id": id }, "balance");
 
 	// Checks if the specified User has balance data or not
 	if (!user) {
 		// Creates a document for the User if they cannot be found
-		user = await User.create({
+		user = await UserModel.create({
 			"_id": id,
 			"username": username,
 			"balance": {

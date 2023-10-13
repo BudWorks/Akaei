@@ -1,4 +1,4 @@
-import { User, UserDocument } from "../database/models/User";
+import { UserModel, UserDocument } from "../database/models/User";
 
 /**
  * Finds and returns the experience data of the specified user.
@@ -8,12 +8,12 @@ import { User, UserDocument } from "../database/models/User";
  */
 export async function getExperience (id: string, username: string) {
 	/** The experience data of the specified User. */
-	let user = await User.findOne({ "_id": id }, "experience");
+	let user = await UserModel.findOne({ "_id": id }, "experience");
 
 	// Checks if the specified User has experience data or not
 	if (!user) {
 		// Creates a document for the User if they cannot be found
-		user = await User.create({
+		user = await UserModel.create({
 			"_id": id,
 			"username": username,
 			"experience": {

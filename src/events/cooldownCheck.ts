@@ -1,5 +1,5 @@
 import { ChannelType, EmbedBuilder } from "discord.js";
-import { User } from "../database/models/User";
+import { UserModel } from "../database/models/User";
 import { client } from "../index";
 
 /**
@@ -13,10 +13,12 @@ export async function cooldownCheck () {
 	 * Find all users in the database that have at least one cooldown that has expired.
 	 * This is so we know who and where to send notifications to, as well as which type.
 	 */
-	const users = await User.find({ "cooldowns.endTime": { "$lte": currentTime } });
+	const users = await UserModel.find({
+		"cooldowns.endTime": { "$lte": currentTime },
+	});
 
 	// Remove all expired cooldowns from each user.
-	await User.updateMany(
+	await UserModel.updateMany(
 		{ "cooldowns.endTime": { "$lte": currentTime } },
 		{
 			"$pull": { "cooldowns": { "endTime": { "$lte": currentTime } } },
