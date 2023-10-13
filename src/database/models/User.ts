@@ -75,7 +75,7 @@ class User {
 
 	/** The experience data of a user. */
 	@prop({
-		"default": () => ({ "points": 0, "level": 0, "nextLevelPoints": 0 }),
+		"default": () => ({ "points": 0, "level": 1, "nextLevelPoints": 100 }),
 		"_id": false,
 	})
 	public experience!: Experience;
