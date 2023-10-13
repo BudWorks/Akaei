@@ -70,11 +70,14 @@ class User {
 	public username!: string;
 
 	/** The balance data of a user. */
-	@prop({ "default": () => ({ "cash": 0, "bank": 0, "card": 0 }) })
+	@prop({ "default": () => ({ "cash": 0, "bank": 0, "card": 0 }), "_id": false })
 	public balance!: Balance;
 
 	/** The experience data of a user. */
-	@prop({ "default": () => ({ "points": 0, "level": 0, "nextLevelPoints": 0 }) })
+	@prop({
+		"default": () => ({ "points": 0, "level": 0, "nextLevelPoints": 0 }),
+		"_id": false,
+	})
 	public experience!: Experience;
 
 	/** The cooldowns that a user is currently undergoing. */
