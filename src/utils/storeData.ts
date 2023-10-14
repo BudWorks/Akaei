@@ -1,5 +1,5 @@
-import { Store } from "../database/models/Store";
+import { StoreModel } from "../database/models/Store";
 
 export async function getStoreData () {
-	return await Store.findOne({ "_id": "global" });
+	return await StoreModel.findOne({ "_id": "global" });
 }
