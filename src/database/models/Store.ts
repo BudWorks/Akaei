@@ -5,7 +5,6 @@ import { prop, getModelForClass, modelOptions } from "@typegoose/typegoose";
  */
 @modelOptions({
 	"schemaOptions": {
-		// Set the property key which is used to discriminate between the different types
 		"discriminatorKey": "type",
 	},
 })
@@ -29,6 +28,14 @@ export class StoreItem {
 	/** The emote displayed next to the item and associated button. */
 	@prop({ "required": true })
 	public emote!: string;
+
+	/**
+	 * The item description displayed in the store.
+	 * @returns Returns the item description.
+	 */
+	public getDescription (): string {
+		return `Price: <:raycoin:684043360624705606>${ this.price }\nCode: ${ this._id }`;
+	}
 }
 
 /**
@@ -46,6 +53,18 @@ export class StoreAmmo extends StoreItem {
 	/** The number of shots per laser charge */
 	@prop({ "required": true })
 	public rounds!: number;
+
+	/**
+	 * The ammo item description displayed in the store.
+	 * @returns Returns the ammo description.
+	 */
+	public getDescription (): string {
+		let description = super.getDescription();
+		description += `\nAccuracy: ${ this.accuracy * 100 }%\nDamage: x${
+			this.damage
+		}\nRounds: ${ this.rounds }`;
+		return description;
+	}
 }
 
 /**
@@ -59,6 +78,16 @@ export class StoreShield extends StoreItem {
 	/** The strength of the shield, which can affect how much damage it takes when hit */
 	@prop({ "required": true })
 	public strength!: number;
+
+	/**
+	 * The shield item description displayed in the store.
+	 * @returns Returns the shield description.
+	 */
+	public getDescription (): string {
+		let description = super.getDescription();
+		description += `\nHealth: ${ this.health }HP\nStrength: x${ this.strength }`;
+		return description;
+	}
 }
 
 /**
@@ -72,6 +101,16 @@ export class StoreFood extends StoreItem {
 	/** The buff given to the pet when consumed, if any */
 	@prop({ "required": true })
 	public buff!: string;
+
+	/**
+	 * The food item description displayed in the store.
+	 * @returns Returns the food description.
+	 */
+	public getDescription (): string {
+		let description = super.getDescription();
+		description += `\nHealth Gain: ${ this.healthGain }HP\nBuff: ${ this.buff }`;
+		return description;
+	}
 }
 
 /**

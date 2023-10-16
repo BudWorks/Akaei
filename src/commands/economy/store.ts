@@ -76,7 +76,7 @@ const run = async (interaction: CommandInteraction) => {
 	// Template used to format the embed when displaying items
 	const itemTemplate: EmbedTemplate<StoreItem> = {
 		"name": (item) => `${ item.emote } ${ item.name }`,
-		"value": (item) => `Price: <:raycoin:684043360624705606>${ item.price }\nCode: ${ item._id }`,
+		"value": (item) => item.getDescription(),
 	};
 
 	// Whether the store is open or not
