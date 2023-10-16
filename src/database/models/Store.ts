@@ -3,6 +3,12 @@ import { prop, getModelForClass, modelOptions } from "@typegoose/typegoose";
 /**
  * The base class for all store items.
  */
+@modelOptions({
+	"schemaOptions": {
+		// Set the property key which is used to discriminate between the different types
+		"discriminatorKey": "type",
+	},
+})
 export class StoreItem {
 	/** The ID of the item. */
 	@prop({ "required": true })
@@ -90,15 +96,15 @@ export class Category {
 
 	/** The items within the category */
 	@prop({
-		"type": () => [
-			StoreItem,
-			StoreAmmo,
-			StoreShield,
-			StoreFood,
-		],
+		"type": () => [ StoreItem ],
 		"required": true,
+		"discriminators": () => [
+			{ "type": StoreAmmo, "value": "ammo" },
+			{ "type": StoreShield, "value": "shield" },
+			{ "type": StoreFood, "value": "food" },
+		],
 	})
-	public items!: Array<StoreItem | StoreAmmo | StoreShield | StoreFood>;
+	public items!: Array<StoreItem>;
 }
 
 /**
