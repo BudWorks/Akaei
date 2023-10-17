@@ -1,4 +1,9 @@
-import { prop, getModelForClass, modelOptions } from "@typegoose/typegoose";
+import {
+	prop,
+	getModelForClass,
+	modelOptions,
+	DocumentType,
+} from "@typegoose/typegoose";
 
 /**
  * The base class for all store items.
@@ -164,3 +169,8 @@ class Store {
  * The model for creating and reading all of the data in the Store schema.
  */
 export const StoreModel = getModelForClass(Store);
+
+/**
+ * The type for instances of StoreModel, representing documents of the Store schema.
+ */
+export type StoreDocument = DocumentType<Store>;
