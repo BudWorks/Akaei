@@ -116,7 +116,7 @@ export class StoreFood extends StoreItem {
 /**
  * The class for categories.
  */
-export class Category {
+export class StoreCategory {
 	/** The ID of the category. */
 	@prop({ "required": true })
 	public _id!: string;
@@ -156,8 +156,8 @@ class Store {
 	public _id!: string;
 
 	/** All of the categories in the store. */
-	@prop({ "type": () => [ Category ], "required": true })
-	public categories!: Array<Category>;
+	@prop({ "type": () => [ StoreCategory ], "required": true })
+	public categories!: Array<StoreCategory>;
 }
 
 /**

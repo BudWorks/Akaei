@@ -8,7 +8,7 @@ import {
 	StringSelectMenuBuilder,
 } from "discord.js";
 import { Command } from "../../classes/Command";
-import { Category, StoreItem } from "../../database/models/Store";
+import { StoreCategory, StoreItem } from "../../database/models/Store";
 import {
 	addPageButtons,
 	EmbedTemplate,
@@ -68,7 +68,7 @@ const run = async (interaction: CommandInteraction) => {
 		new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(categorySelectMenu);
 
 	// Template used to format the embed when displaying categories
-	const categoryTemplate: EmbedTemplate<Category> = {
+	const categoryTemplate: EmbedTemplate<StoreCategory> = {
 		"name": (category) => `${ category.emote } ${ category.name }`,
 		"value": (category) => category.description,
 	};
@@ -86,9 +86,9 @@ const run = async (interaction: CommandInteraction) => {
 	// The number of items being displayed per page
 	const itemsPerPage = 5;
 	// The data being displayed
-	let currentData: Array<Category> | Array<StoreItem> = store.categories;
+	let currentData: Array<StoreCategory> | Array<StoreItem> = store.categories;
 	// The template being used in the embed
-	let currentTemplate: EmbedTemplate<Category> | EmbedTemplate<StoreItem> =
+	let currentTemplate: EmbedTemplate<StoreCategory> | EmbedTemplate<StoreItem> =
 		categoryTemplate;
 	let pageButtonRow;
 
@@ -98,7 +98,7 @@ const run = async (interaction: CommandInteraction) => {
 		if (currentData.length > 0 && "items" in currentData[0]) {
 			// The sliced data being displayed on the embed
 			const dataToDisplay = await sliceData(
-				currentData as Array<Category>,
+				currentData as Array<StoreCategory>,
 				currentPage,
 				itemsPerPage,
 			);
@@ -106,14 +106,14 @@ const run = async (interaction: CommandInteraction) => {
 			// The data formatted into fields for the embed, using the category template
 			const dataFields = await formatFields(
 				dataToDisplay,
-				currentTemplate as EmbedTemplate<Category>,
+				currentTemplate as EmbedTemplate<StoreCategory>,
 			);
 
 			storeEmbed.setFields(dataFields);
 
 			// The action row with the page buttons
 			pageButtonRow = await addPageButtons(
-				currentData as Array<Category>,
+				currentData as Array<StoreCategory>,
 				currentPage,
 				itemsPerPage,
 			);
