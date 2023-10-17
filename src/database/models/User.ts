@@ -4,6 +4,7 @@ import {
 	modelOptions,
 	DocumentType,
 } from "@typegoose/typegoose";
+import { InventoryCategory } from "./Inventory";
 
 /**
  * The class for the user's balance.
@@ -83,6 +84,10 @@ class User {
 	/** The cooldowns that a user is currently undergoing. */
 	@prop({ "type": () => [ Cooldown ], "default": [] })
 	public cooldowns!: Array<Cooldown>;
+
+	/** The inventory data of a user. */
+	@prop({ "type": () => [ InventoryCategory ], "default": [] })
+	public inventory!: Array<InventoryCategory>;
 }
 
 /**
