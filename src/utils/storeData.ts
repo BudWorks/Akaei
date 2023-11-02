@@ -19,7 +19,7 @@ export async function getItemData (store: StoreDocument, itemCode: string) {
 		for (const item of category.items) {
 			if (item._id === itemCode) {
 				return {
-					"category": { "name": category.name, "desription": category.description },
+					"category": category,
 					"data": item,
 				};
 			}
