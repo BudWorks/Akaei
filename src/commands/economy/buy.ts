@@ -82,7 +82,7 @@ const run = async (interaction: CommandInteraction) => {
 	}
 
 	// The total cost of the items the user is buying
-	const cost = item.data.price * amount;
+	const cost = item.price * amount;
 
 	console.log(item);
 
