@@ -6,7 +6,7 @@ import {
 import { Command } from "../../classes/Command";
 import { getItemData, getStoreData } from "../../utils/storeData";
 import { getBalance, updateBalance } from "../../utils/userBalance";
-import { getInventory } from "../../utils/userInventory";
+import { addInventoryItem, getInventory } from "../../utils/userInventory";
 
 /** The data of the command, including subcommands and options if applicable. */
 const data = new SlashCommandBuilder()
@@ -35,7 +35,6 @@ const run = async (interaction: CommandInteraction) => {
 
 	// The user's inventory data
 	const inventoryData = await getInventory(user.id, user.username);
-	const inventory = inventoryData.inventory;
 
 	// Embed sent at the end of the command process
 	const buyEmbed = new EmbedBuilder();
@@ -104,6 +103,9 @@ const run = async (interaction: CommandInteraction) => {
 
 	// Take cash from the user
 	await updateBalance(balanceData, cost * -1, "cash");
+
+	// Add the item to the user's inventory
+	await addInventoryItem(inventoryData, item);
 
 	buyEmbed.setColor(0x80dbb5);
 	buyEmbed.addFields({

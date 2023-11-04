@@ -1,4 +1,6 @@
-import { UserModel } from "../database/models/User";
+import { InventoryCategory } from "../database/models/Inventory";
+import { StoreItem } from "../database/models/Store";
+import { UserDocument, UserModel } from "../database/models/User";
 
 /**
  * Finds and returns the inventory data of the specified user.
@@ -55,3 +57,35 @@ const inventoryCategoryInfo: Record<string, InventoryCategoryInfo> = {
 		"emote": "<:food:709101133863321680>",
 	},
 };
+
+/**
+ * Adds an item to the cooresponding category of a user's inventory.
+ * @param user The user obtaining the item.
+ * @param itemData The data of the item being obtained.
+ */
+export async function addInventoryItem (
+	user: UserDocument,
+	itemData: StoreItem,
+) {
+	// The inventory category based on the item's type
+	let category = user.inventory.find((cat) => cat._id === itemData.type);
+
+	// If the category does not exist in the inventory then it is created
+	if (!category) {
+		category = new InventoryCategory();
+		category._id = itemData.type;
+
+		// Set the details of the category based on the item's type
+		const details = inventoryCategoryInfo[itemData.type];
+		if (details) {
+			category.name = details.name;
+			category.description = details.description;
+			category.emote = details.emote;
+		}
+
+		category.items = [];
+
+		user.inventory.push(category);
+		await user.save();
+	}
+}
