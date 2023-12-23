@@ -1,4 +1,5 @@
 import { prop, modelOptions } from "@typegoose/typegoose";
+import { StoreAmmo, StoreFood, StoreItem, StoreShield } from "./Store";
 
 /**
  * The base class for all inventory items.
@@ -40,6 +41,15 @@ export class InventoryItem {
 	public getDescription (): string {
 		return `Amount: ${ this.amount }\nCode: ${ this._id }`;
 	}
+
+	constructor (itemData: StoreItem, amount: number) {
+		this._id = itemData._id;
+		this.name = itemData.name;
+		this.type = itemData.type;
+		this.amount = amount;
+		this.worth = itemData.price / 5;
+		this.emote = itemData.emote;
+	}
 }
 
 /**
@@ -69,6 +79,13 @@ export class InventoryAmmo extends InventoryItem {
 		}\nRounds: ${ this.rounds }`;
 		return description;
 	}
+
+	constructor (itemData: StoreAmmo, amount: number) {
+		super(itemData, amount);
+		this.accuracy = itemData.accuracy;
+		this.damage = itemData.damage;
+		this.rounds = itemData.rounds;
+	}
 }
 
 /**
@@ -92,6 +109,12 @@ export class InventoryShield extends InventoryItem {
 		description += `\nHealth: ${ this.health }HP\nStrength: x${ this.strength }`;
 		return description;
 	}
+
+	constructor (itemData: StoreShield, amount: number) {
+		super(itemData, amount);
+		this.health = itemData.health;
+		this.strength = itemData.strength;
+	}
 }
 
 /**
@@ -114,6 +137,12 @@ export class InventoryFood extends InventoryItem {
 		let description = super.getDescription();
 		description += `\nHealth Gain: ${ this.healthGain }HP\nBuff: ${ this.buff }`;
 		return description;
+	}
+
+	constructor (itemData: StoreFood, amount: number) {
+		super(itemData, amount);
+		this.healthGain = itemData.healthGain;
+		this.buff = itemData.buff;
 	}
 }
 
