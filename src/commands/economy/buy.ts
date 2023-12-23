@@ -83,8 +83,6 @@ const run = async (interaction: CommandInteraction) => {
 	// The total cost of the items the user is buying
 	const cost = item.price * amount;
 
-	console.log(item);
-
 	// Ends the command if the user tries to buy more than they can afford
 	if (cost > balance.cash) {
 		buyEmbed.setColor(0xff7a90);
@@ -105,12 +103,12 @@ const run = async (interaction: CommandInteraction) => {
 	await updateBalance(balanceData, cost * -1, "cash");
 
 	// Add the item to the user's inventory
-	await addInventoryItem(inventoryData, item);
+	await addInventoryItem(inventoryData, item, amount);
 
 	buyEmbed.setColor(0x80dbb5);
 	buyEmbed.addFields({
 		"name": "<:yes:785336714566172714> Item bought!",
-		"value": `You've spent <:raycoin:684043360624705606>${ cost } but did not recieve the item! That part hasn't been programmed yet.`,
+		"value": `You've spent <:raycoin:684043360624705606>${ cost } and can view your new item with \`/inventory\`!`,
 	});
 
 	// Respond with the buy embed

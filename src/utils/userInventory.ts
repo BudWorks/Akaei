@@ -1,5 +1,16 @@
-import { InventoryCategory } from "../database/models/Inventory";
-import { StoreItem } from "../database/models/Store";
+import {
+	InventoryAmmo,
+	InventoryCategory,
+	InventoryFood,
+	InventoryItem,
+	InventoryShield,
+} from "../database/models/Inventory";
+import {
+	StoreAmmo,
+	StoreFood,
+	StoreItem,
+	StoreShield,
+} from "../database/models/Store";
 import { UserDocument, UserModel } from "../database/models/User";
 
 /**
@@ -62,10 +73,12 @@ const inventoryCategoryInfo: Record<string, InventoryCategoryInfo> = {
  * Adds an item to the cooresponding category of a user's inventory.
  * @param user The user obtaining the item.
  * @param itemData The data of the item being obtained.
+ * @param amount The amount of the item being obtained.
  */
 export async function addInventoryItem (
 	user: UserDocument,
 	itemData: StoreItem,
+	amount: number,
 ) {
 	// The inventory category based on the item's type
 	let category = user.inventory.find((cat) => cat._id === itemData.type);
@@ -84,8 +97,43 @@ export async function addInventoryItem (
 		}
 
 		category.items = [];
-
 		user.inventory.push(category);
-		await user.save();
 	}
+
+	// The index of the category within the inventory array
+	const categoryIndex = user.inventory.findIndex((cat) => cat._id === itemData.type);
+	category = user.inventory[categoryIndex];
+
+	// The item being added to the inventory
+	let item = category.items.find((i) => i._id === itemData._id);
+
+	// If the item does not exist in the inventory, then it is created
+	if (!item) {
+		// The new item is created based on it's type, then added to the inventory
+		switch (itemData.type) {
+		case "ammo":
+			item = new InventoryAmmo(itemData as StoreAmmo, amount);
+			break;
+
+		case "shield":
+			item = new InventoryShield(itemData as StoreShield, amount);
+			break;
+
+		case "food":
+			item = new InventoryFood(itemData as StoreFood, amount);
+			break;
+
+		default:
+			item = new InventoryItem(itemData as StoreItem, amount);
+			break;
+		}
+
+		category.items.push(item);
+	}
+	else {
+		// If the item already exists, then the new amount is simply added to it
+		item.amount += amount;
+	}
+
+	await user.save();
 }
